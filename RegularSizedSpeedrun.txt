@@ -19,12 +19,12 @@ Lib/HowToTitle/Titles/others.lua
 Lang/en.lua
 Lang/$(language).lua
 
-RabbusSpeedrunData.lua
-RabbusSpeedrunDefaults.lua
-RabbusSpeedrunExtra.lua
-RabbusSpeedrun.lua
-RabbusSpeedrunMenu.lua
-RabbusSpeedrunUI.lua
+RegularSizedSpeedrunData.lua
+RegularSizedSpeedrunDefaults.lua
+RegularSizedSpeedrunExtra.lua
+RegularSizedSpeedrun.lua
+RegularSizedSpeedrunMenu.lua
+RegularSizedSpeedrunUI.lua
 
-RabbusSpeedrunUI.xml
+RegularSizedSpeedrunUI.xml
 bindings.xml

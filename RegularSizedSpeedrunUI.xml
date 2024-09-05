@@ -3,7 +3,7 @@
 
     <Texture name="SpeedRun_ButtonTooltip" mouseEnabled="true" virtual="true">
       <OnMouseEnter>
-        RabbusSpeedrun.OnMouseEnter(self)
+        RegularSizedSpeedrun.OnMouseEnter(self)
       </OnMouseEnter>
       <OnMouseExit>
         ZO_Options_OnMouseExit(self)
@@ -18,7 +18,7 @@
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
       <Dimensions x="284" y="26"/>
       <OnMoveStop>
-        RabbusSpeedrun.SaveLoc_Panel()
+        RegularSizedSpeedrun.SaveLoc_Panel()
       </OnMoveStop>
       <Controls>
 
@@ -34,16 +34,16 @@
         </Label>
 
         <Texture name="$(parent)_Difficulty_Switch" inherits="SpeedRun_ButtonTooltip" textureFile="/esoui/art/lfg/gamepad/lfg_menuicon_veteranldungeon.dds" mouseEnabled="true" >
-          <OnMouseUp    >  RabbusSpeedrun.ToggleDifficulty()       </OnMouseUp   >
-          <OnMouseEnter >  RabbusSpeedrun.DifficultyOnMouseEnter() </OnMouseEnter>
-          <OnMouseExit  >  RabbusSpeedrun.DifficultyOnMouseExit()  </OnMouseExit >
+          <OnMouseUp    >  RegularSizedSpeedrun.ToggleDifficulty()       </OnMouseUp   >
+          <OnMouseEnter >  RegularSizedSpeedrun.DifficultyOnMouseEnter() </OnMouseEnter>
+          <OnMouseExit  >  RegularSizedSpeedrun.DifficultyOnMouseExit()  </OnMouseExit >
           <Dimensions x="29" y="29" />
           <Anchor point="TOPLeft" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-1"  />
         </Texture>
 
         <Texture name="$(parent)_Options" mouseEnabled="true" textureFile="esoui/art/tutorial/gamepad/gp_playermenu_icon_settings.dds" color="FFFFFFFF" inherits="SpeedRun_ButtonTooltip SpeedRun_Button">
           <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="0" offsetY="0"  />
-          <OnMouseUp> RabbusSpeedrun.Submenu(self, upInside) </OnMouseUp>
+          <OnMouseUp> RegularSizedSpeedrun.Submenu(self, upInside) </OnMouseUp>
         </Texture>
 
       </Controls>
@@ -73,7 +73,7 @@
         </Label>
 
         <Button name="$(parent)_Segments_Switch" inherits="ZO_ButtonBehaviorClickSound" >
-          <OnClicked>RabbusSpeedrun.ToggleSimpleUI()</OnClicked>
+          <OnClicked>RegularSizedSpeedrun.ToggleSimpleUI()</OnClicked>
           <Dimensions x="24" y="24" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="2" offsetY="25"  />
           <!-- <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-2" offsetY="25"  /> -->
@@ -224,7 +224,7 @@
       <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" />
       <Dimensions x="250" y="40"/>
       <OnMoveStop>
-        RabbusSpeedrun.SaveLoc_Food()
+        RegularSizedSpeedrun.SaveLoc_Food()
       </OnMoveStop>
       <Controls>
 
@@ -254,15 +254,15 @@
 
 
 <!-- <Texture name="$(parent)_HideGroup_Switch" textureFile="/esoui/art/icons/poi/poi_areaofinterest_complete.dds" mouseEnabled="true" >
-		<OnMouseDown  >  RabbusSpeedrun.ToggleDifficulty()       </OnMouseDown >
-		<OnMouseEnter >  RabbusSpeedrun.DifficultyOnMouseEnter() </OnMouseEnter>
-		<OnMouseExit  >  RabbusSpeedrun.DifficultyOnMouseExit()  </OnMouseExit >
+		<OnMouseDown  >  RegularSizedSpeedrun.ToggleDifficulty()       </OnMouseDown >
+		<OnMouseEnter >  RegularSizedSpeedrun.DifficultyOnMouseEnter() </OnMouseEnter>
+		<OnMouseExit  >  RegularSizedSpeedrun.DifficultyOnMouseExit()  </OnMouseExit >
 		<Dimensions x="29" y="29" />
 		<Anchor point="TOPLeft" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-1"  />
 </Texture> -->
 
 <!-- <Button name="$(parent)_Role_Switch" inherits="ZO_ButtonBehaviorClickSound" >
-		<OnClicked>RabbusSpeedrun.ToggleSimpleUI()</OnClicked>
+		<OnClicked>RegularSizedSpeedrun.ToggleSimpleUI()</OnClicked>
 		<Dimensions x="20" y="20" />
 		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="30" offsetY="0"  />
 		<Textures
@@ -273,7 +273,7 @@
 </Button>
 
 <Button name="$(parent)_Travel" inherits="ZO_ButtonBehaviorClickSound" >
-		<OnClicked>RabbusSpeedrun.ToggleSimpleUI()</OnClicked>
+		<OnClicked>RegularSizedSpeedrun.ToggleSimpleUI()</OnClicked>
 		<Dimensions x="20" y="20" />
 		<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="2" offsetY="25"  />
 		<Textures

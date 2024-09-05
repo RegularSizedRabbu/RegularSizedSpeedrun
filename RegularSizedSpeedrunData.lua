@@ -1,7 +1,7 @@
-RabbusSpeedrun = RabbusSpeedrun or { }
-local RabbusSpeedrun = RabbusSpeedrun
+RegularSizedSpeedrun = RegularSizedSpeedrun or { }
+local RegularSizedSpeedrun = RegularSizedSpeedrun
 
-RabbusSpeedrun.Data = {
+RegularSizedSpeedrun.Data = {
 		-------------------
 		---- Raid List ----
 		-------------------
@@ -116,6 +116,17 @@ RabbusSpeedrun.Data = {
 								scoreReasons = {},
 						},
 		    },
+			[1344] = {
+		        name = "DSR",
+		        id = 1344,
+						timerSteps = {},
+						scoreFactors = {
+								vitality = 0,
+								bestTime = nil,
+								bestScore = 0,
+								scoreReasons = {},
+						},
+		    },
 			[1427] = {
 		        name = "SE",
 		        id = 1427,
@@ -184,7 +195,7 @@ RabbusSpeedrun.Data = {
 				},
 		},
 
-		-- RabbusSpeedrun.arenaList = {
+		-- RegularSizedSpeedrun.arenaList = {
 		-- 		[677] = {
 		-- 			name = "MA",
 		-- 			id = 677,
@@ -289,6 +300,14 @@ RabbusSpeedrun.Data = {
 		        [5] = "",
 		        [6] = ""
 		    },
+			[1344] = { --DSR
+		        [1] = "",
+		        [2] = "",
+		        [3] = "",
+		        [4] = "",
+		        [5] = "",
+		        [6] = ""
+		    },
 			[1427] = { --SE
 		        [1] = "",
 		        [2] = "",
@@ -366,7 +385,7 @@ RabbusSpeedrun.Data = {
 		    },
 		},
 
-		-- RabbusSpeedrun.customArenaSteps = {
+		-- RegularSizedSpeedrun.customArenaSteps = {
 		-- 		[677] = { --MA
 		-- 				[1] = "",
 		-- 				[2] = "",
@@ -475,28 +494,36 @@ RabbusSpeedrun.Data = {
 		        -- [7] = "",
 		    },
 			[1263] = { --RG
-		        [1] = "Oaxiltso",
-		        [2] = "Oaxiltso |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [3] = "Flame-Herald Bahsei",
-		        [4] = "Flame-Herald Bahsei |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [5] = "Xalvakka",
-		        [6] = "Xalvakka |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
+		        [1] = zo_strformat(SI_SPEEDRUN_RG_BEGIN_OAX),
+		        [2] = zo_strformat(SI_SPEEDRUN_RG_KILL_OAX),
+		        [3] = zo_strformat(SI_SPEEDRUN_RG_BEGIN_BAHSEI),
+		        [4] = zo_strformat(SI_SPEEDRUN_RG_KILL_BAHSEI),
+		        [5] = zo_strformat(SI_SPEEDRUN_RG_BEGIN_XAL),
+		        [6] = zo_strformat(SI_SPEEDRUN_RG_KILL_XAL),
+		    },
+			[1344] = { --DSR
+		        [1] = zo_strformat(SI_SPEEDRUN_DSR_BEGIN_TWINS),
+		        [2] = zo_strformat(SI_SPEEDRUN_DSR_KILL_TWINS),
+		        [3] = zo_strformat(SI_SPEEDRUN_DSR_BEGIN_REEF),
+		        [4] = zo_strformat(SI_SPEEDRUN_DSR_KILL_REEF),
+		        [5] = zo_strformat(SI_SPEEDRUN_DSR_BEGIN_TALERIA),
+		        [6] = zo_strformat(SI_SPEEDRUN_DSR_KILL_TALERIA),
 		    },
 			[1427] = { --SE
-		        [1] = "Exarchanic Yaseyla",
-		        [2] = "Exarchanic Yaseyla |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [3] = "Archwizard Twelvane & Chimera",
-		        [4] = "Archwizard Twelvane & Chimera |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [5] = "Ansuul the Tormentor",
-		        [6] = "Ansuul the Tormentor |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
+		        [1] = zo_strformat(SI_SPEEDRUN_SE_BEGIN_YASEYLA),
+		        [2] = zo_strformat(SI_SPEEDRUN_SE_KILL_YASEYLA),
+		        [3] = zo_strformat(SI_SPEEDRUN_SE_BEGIN_CHIMERA),
+		        [4] = zo_strformat(SI_SPEEDRUN_SE_KILL_CHIMERA),
+		        [5] = zo_strformat(SI_SPEEDRUN_SE_BEGIN_ANSUUL),
+		        [6] = zo_strformat(SI_SPEEDRUN_SE_KILL_ANSUUL),
 		    },
 			[1478] = { --LC
-		        [1] = "Count Ryelaz & Zilyesset",
-		        [2] = "Count Ryelaz & Zilyesset |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [3] = "Orphic Shattered Shard",
-		        [4] = "Orphic Shattered Shard |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
-		        [5] = "Xoryn",
-		        [6] = "Xoryn |t20:20:esoui\\art\\icons\\poi\\poi_groupboss_incomplete.dds|t",
+		        [1] = zo_strformat(SI_SPEEDRUN_LC_BEGIN_COUNT),
+		        [2] = zo_strformat(SI_SPEEDRUN_LC_KILL_COUNT),
+		        [3] = zo_strformat(SI_SPEEDRUN_LC_BEGIN_ORPHIC),
+		        [4] = zo_strformat(SI_SPEEDRUN_LC_KILL_ORPHIC),
+		        [5] = zo_strformat(SI_SPEEDRUN_LC_BEGIN_XORYN),
+		        [6] = zo_strformat(SI_SPEEDRUN_LC_KILL_XORYN),
 		    },
 
 		    [1082] = { --BRP

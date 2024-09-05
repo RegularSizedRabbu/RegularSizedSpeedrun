@@ -1,5 +1,5 @@
-RabbusSpeedrun              = RabbusSpeedrun or {}
-local RabbusSpeedrun        = RabbusSpeedrun
+RegularSizedSpeedrun              = RegularSizedSpeedrun or {}
+local RegularSizedSpeedrun        = RegularSizedSpeedrun
 local WM              = GetWindowManager()
 local EM              = EVENT_MANAGER
 local LAM             = LibAddonMenu2
@@ -64,7 +64,7 @@ local function AddTooltipLine(control, tooltipControl, tooltip)
   SetTooltipText(tooltipControl, tooltip)
 end
 
-function RabbusSpeedrun.OnMouseEnter(control) --copy from ZO_Options_OnMouseEnter but modified to support multiple tooltip lines
+function RegularSizedSpeedrun.OnMouseEnter(control) --copy from ZO_Options_OnMouseEnter but modified to support multiple tooltip lines
   local tooltipText = control.tooltip
   if tooltipText ~= nil and #tooltipText > 0 then
     InitializeTooltip(InformationTooltip, control, BOTTOMLEFT, 0, -2, TOPLEFT)
@@ -80,15 +80,15 @@ end
 
 do
   local function lockUI()
-    RabbusSpeedrun.ToggleUILocked()
+    RegularSizedSpeedrun.ToggleUILocked()
   end
 
   local function hideGroup()
-    RabbusSpeedrun.HideGroupToggle()
+    RegularSizedSpeedrun.HideGroupToggle()
   end
 
   local function loadProfile(name)
-    RabbusSpeedrun.LoadProfile(name)
+    RegularSizedSpeedrun.LoadProfile(name)
   end
 
   local function portHome(outside)
@@ -96,18 +96,18 @@ do
   end
 
   local function openMenu()
-    LAM:OpenToPanel(RabbusSpeedrun_Settings)
+    LAM:OpenToPanel(RegularSizedSpeedrun_Settings)
   end
 
   local function testingHouse()
     RequestJumpToHouse(38)
   end
 
-  function RabbusSpeedrun.Submenu( button, upInside )
+  function RegularSizedSpeedrun.Submenu( button, upInside )
     if not upInside then return end
 
-    local sV            = RabbusSpeedrun.savedVariables
-    local cV            = RabbusSpeedrun.savedSettings
+    local sV            = RegularSizedSpeedrun.savedVariables
+    local cV            = RegularSizedSpeedrun.savedSettings
 
     local lockString    = sV.unlockUI    and "Lock UI"      or "Unlock UI"
     local hgString      = cV.groupHidden and "Unhide Group" or "Hide Group"
@@ -120,7 +120,7 @@ do
       { label = "Outside", callback = function() portHome(true)  end }
     }
 
-    RabbusSpeedrun.UpdateProfileList()
+    RegularSizedSpeedrun.UpdateProfileList()
     ClearMenu()
 
     AddCustomMenuItem(hgString, hideGroup)
@@ -128,7 +128,7 @@ do
     if GetDisplayName() == "@nogetrandom" then AddCustomMenuItem(homeString, testingHouse)
     else AddCustomSubMenuItem(homeString, portOptions) end
 
-    AddCustomSubMenuItem(profileString, RabbusSpeedrun.profileNames)
+    AddCustomSubMenuItem(profileString, RegularSizedSpeedrun.profileNames)
     AddCustomMenuItem(lockString, lockUI)
     AddCustomMenuItem(menuString, openMenu)
 
@@ -136,47 +136,47 @@ do
     AnchorMenu(button)
   end
 
-  function RabbusSpeedrun.UpdateProfileList()
-    RabbusSpeedrun.profileNames	= {}
+  function RegularSizedSpeedrun.UpdateProfileList()
+    RegularSizedSpeedrun.profileNames	= {}
     local profileList     = {}
-    local profileNames    = RabbusSpeedrun:GetProfileNames()
+    local profileNames    = RegularSizedSpeedrun:GetProfileNames()
 
     table.sort(profileNames, SortProfileNames)
 
     for i = 1, #profileNames do
-      if profileNames[i] ~= RabbusSpeedrun.activeProfile then
+      if profileNames[i] ~= RegularSizedSpeedrun.activeProfile then
         local profile = profileNames[i]
         local function callbackfunc() loadProfile(profile) end
-        table.insert(RabbusSpeedrun.profileNames, {label = profile, callback = callbackfunc})
+        table.insert(RegularSizedSpeedrun.profileNames, {label = profile, callback = callbackfunc})
       end
     end
   end
 end
 
-function RabbusSpeedrun.SaveLoc_Panel()
+function RegularSizedSpeedrun.SaveLoc_Panel()
   sV["speedrun_panel_OffsetX"] = SpeedRun_Panel:GetLeft()
   sV["speedrun_panel_OffsetY"] = SpeedRun_Panel:GetTop()
 end
 
-function RabbusSpeedrun.SaveLoc_Food()
+function RegularSizedSpeedrun.SaveLoc_Food()
   sV.food.x = SpeedRun_Food:GetLeft()
   sV.food.y = SpeedRun_Food:GetTop()
 end
 
-function RabbusSpeedrun.GetActiveProfileDisplay()
-  local profileDisplay = zo_strformat("|cffffff[ |cffdf80" .. RabbusSpeedrun.activeProfile .. " |cffffff]|r")
+function RegularSizedSpeedrun.GetActiveProfileDisplay()
+  local profileDisplay = zo_strformat("|cffffff[ |cffdf80" .. RegularSizedSpeedrun.activeProfile .. " |cffffff]|r")
   return profileDisplay
 end
 
-function RabbusSpeedrun:GetProfileNames()
-  local sV = RabbusSpeedrun.savedVariables
+function RegularSizedSpeedrun:GetProfileNames()
+  local sV = RegularSizedSpeedrun.savedVariables
   local profiles = {}
   for name, v in pairs(sV.profiles) do table.insert(profiles, name) end
   return profiles
 end
 
-function RabbusSpeedrun.ResetUI()
-  RabbusSpeedrun:dbg(2, "Resetting UI.")
+function RegularSizedSpeedrun.ResetUI()
+  RegularSizedSpeedrun:dbg(2, "Resetting UI.")
 
   SpeedRun_Timer_Container:SetHeight(0)
   SpeedRun_TotalTimer_Title:SetText(" ")
@@ -186,8 +186,8 @@ function RabbusSpeedrun.ResetUI()
   SpeedRun_Advanced_BestPossible_Value:SetText(" ")
   SpeedRun_Score_Label:SetText(" ")
 
-  if RabbusSpeedrun.segments then
-    for i,x in ipairs(RabbusSpeedrun.segments) do
+  if RegularSizedSpeedrun.segments then
+    for i,x in ipairs(RegularSizedSpeedrun.segments) do
       local name = WM:GetControlByName(x:GetName())
       x:SetHidden(true)
       name:GetNamedChild("_Name"):SetText(" ")
@@ -196,13 +196,13 @@ function RabbusSpeedrun.ResetUI()
     end
   end
 
-  RabbusSpeedrun.ResetAddsUI()
-  if RabbusSpeedrun.zone == 1227 then RabbusSpeedrun.UpdateAdds() end
-  RabbusSpeedrun.isUIDrawn = false
-  RabbusSpeedrun.isScoreSet = false
+  RegularSizedSpeedrun.ResetAddsUI()
+  if RegularSizedSpeedrun.zone == 1227 then RegularSizedSpeedrun.UpdateAdds() end
+  RegularSizedSpeedrun.isUIDrawn = false
+  RegularSizedSpeedrun.isScoreSet = false
 end
 
-function RabbusSpeedrun.ResetAddsUI()
+function RegularSizedSpeedrun.ResetAddsUI()
   SpeedRun_Adds_SA:SetText(" ")
   SpeedRun_Adds_SA_Counter:SetText(" ")
   SpeedRun_Adds_LA:SetText(" ")
@@ -211,15 +211,15 @@ function RabbusSpeedrun.ResetAddsUI()
   SpeedRun_Adds_EA_Counter:SetText(" ")
 end
 
-function RabbusSpeedrun.ResetAnchors()
+function RegularSizedSpeedrun.ResetAnchors()
   SpeedRun_Panel:ClearAnchors()
   SpeedRun_Panel:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, sV["speedrun_panel_OffsetX"], sV["speedrun_panel_OffsetY"])
   SpeedRun_Timer_Container:ClearAnchors()
   SpeedRun_Timer_Container:SetAnchor(TOPLEFT, SpeedRun_Panel, BOTTOMLEFT, 0, 0)
 end
 
-function RabbusSpeedrun.SetDefaultUI()
-  SpeedRun_Timer_Container_Profile:SetText(RabbusSpeedrun.GetActiveProfileDisplay())
+function RegularSizedSpeedrun.SetDefaultUI()
+  SpeedRun_Timer_Container_Profile:SetText(RegularSizedSpeedrun.GetActiveProfileDisplay())
 
   numActiveSegments = 0
 
@@ -233,36 +233,36 @@ function RabbusSpeedrun.SetDefaultUI()
     segmentRow:GetNamedChild('_Name'):SetText(x);
 
     if i == 1 then
-      RabbusSpeedrun.segmentTimer[i] = 0
+      RegularSizedSpeedrun.segmentTimer[i] = 0
       segmentRow:SetAnchor(TOPLEFT, SpeedRun_Timer_Container, TOPLEFT, 0, 40)
     else
-      RabbusSpeedrun.segmentTimer[i] = 0 + RabbusSpeedrun.segmentTimer[i - 1]
-      segmentRow:SetAnchor(TOPLEFT, RabbusSpeedrun.segments[i - 1], TOPLEFT, 0, 20)
+      RegularSizedSpeedrun.segmentTimer[i] = 0 + RegularSizedSpeedrun.segmentTimer[i - 1]
+      segmentRow:SetAnchor(TOPLEFT, RegularSizedSpeedrun.segments[i - 1], TOPLEFT, 0, 20)
     end
     segmentRow:GetNamedChild('_Best'):SetText(" ")
 
     segmentRow:SetHidden(false)
-    RabbusSpeedrun.segments[i] = segmentRow;
+    RegularSizedSpeedrun.segments[i] = segmentRow;
 
     numActiveSegments = numActiveSegments + 1
   end
-  SpeedRun_Vitality_Label:SetText(RabbusSpeedrun.FormatVitality(false, 36, 36))
+  SpeedRun_Vitality_Label:SetText(RegularSizedSpeedrun.FormatVitality(false, 36, 36))
   SpeedRun_TotalTimer_Title:SetText("--:--")
   SpeedRun_Score_Label:SetText("--'--")
-  RabbusSpeedrun.SetSimpleUI(sV.uiSimple)
+  RegularSizedSpeedrun.SetSimpleUI(sV.uiSimple)
 end
 
-function RabbusSpeedrun.ToggleUILocked()
+function RegularSizedSpeedrun.ToggleUILocked()
   sV.unlockUI = not sV.unlockUI
   SpeedRun_Panel:SetMovable(sV.unlockUI)
 end
 
-function RabbusSpeedrun.ToggleUIVisibility()
+function RegularSizedSpeedrun.ToggleUIVisibility()
   sV.showUI = not sV.showUI
-  RabbusSpeedrun.UpdateUIConfiguration()
+  RegularSizedSpeedrun.UpdateUIConfiguration()
 end
 
-function RabbusSpeedrun.SetUIHidden(hide)
+function RegularSizedSpeedrun.SetUIHidden(hide)
   SpeedRun_Timer_Container:SetHidden(hide)
   SpeedRun_TotalTimer_Title:SetHidden(hide)
   SpeedRun_Vitality_Label:SetHidden(hide)
@@ -270,7 +270,7 @@ function RabbusSpeedrun.SetUIHidden(hide)
 
   local hideAdvanced = hide == true and hide or (not sV.showAdvanced)
   local hideAdds
-  if RabbusSpeedrun.inMenu and RabbusSpeedrun.currentTrialMenu == 1227 then
+  if RegularSizedSpeedrun.inMenu and RegularSizedSpeedrun.currentTrialMenu == 1227 then
     hideAdds = hide == true and hide or (not sV.showAdds)
   else
     if GetZoneId(GetUnitZoneIndex("player")) == 1227 then
@@ -283,9 +283,9 @@ function RabbusSpeedrun.SetUIHidden(hide)
   SpeedRun_Adds:SetHidden(hideAdds)
 end
 
-function RabbusSpeedrun.UpdateAlpha()
+function RegularSizedSpeedrun.UpdateAlpha()
   local alpha
-  if RabbusSpeedrun.inMenu then alpha = 1
+  if RegularSizedSpeedrun.inMenu then alpha = 1
   else
     if combatState then
       if sV.combatAlpha == 0
@@ -303,19 +303,19 @@ function RabbusSpeedrun.UpdateAlpha()
 end
 
 
-function RabbusSpeedrun.ShowInMenu()
-  local hide = not RabbusSpeedrun.inMenu
+function RegularSizedSpeedrun.ShowInMenu()
+  local hide = not RegularSizedSpeedrun.inMenu
   SpeedRun_Timer_Container:SetHidden(hide)
   SpeedRun_TotalTimer_Title:SetHidden(hide)
   SpeedRun_Vitality_Label:SetHidden(hide)
   SpeedRun_Score_Label:SetHidden(hide)
   SpeedRun_Advanced:SetHidden(not sV.showAdvanced)
-  if not hide and RabbusSpeedrun.currentTrialMenu == 1227 then
+  if not hide and RegularSizedSpeedrun.currentTrialMenu == 1227 then
     SpeedRun_Adds:SetHidden(not sV.showAdds)
   end
 end
 
-function RabbusSpeedrun.UpdateAnchors()
+function RegularSizedSpeedrun.UpdateAnchors()
   SpeedRun_Adds:ClearAnchors()
   if not sV.showAdvanced then
     SpeedRun_Adds:SetAnchor(TOPRIGHT, SpeedRun_TotalTimer, BOTTOMRIGHT, 0, 30)
@@ -324,8 +324,8 @@ function RabbusSpeedrun.UpdateAnchors()
   end
 end
 
-function RabbusSpeedrun.UpdateDifficultySwitch()
-  local isVet = RabbusSpeedrun.ResolveTrialDiffculty()
+function RegularSizedSpeedrun.UpdateDifficultySwitch()
+  local isVet = RegularSizedSpeedrun.ResolveTrialDiffculty()
 
   -- was changed from normal to veteran
   if isVet then	SpeedRun_Panel_Difficulty_Switch:SetTexture(vetIcon)
@@ -341,24 +341,24 @@ function RabbusSpeedrun.UpdateDifficultySwitch()
   end
 end
 
-function RabbusSpeedrun.ToggleDifficulty()
+function RegularSizedSpeedrun.ToggleDifficulty()
   -- do nothing if setting is unavailable
   if not CanPlayerChangeGroupDifficulty() then SpeedRun_Panel_Difficulty_Switch:SetColor(unpack(colorDisabled)) return end
 
   local vet = IsUnitUsingVeteranDifficulty('player')
   SpeedRun_Panel_Difficulty_Switch:SetColor(unpack(colorEnabled))
   SetVeteranDifficulty(not vet)
-  RabbusSpeedrun.UpdateDifficultySwitch(not vet)
+  RegularSizedSpeedrun.UpdateDifficultySwitch(not vet)
 end
 
-function RabbusSpeedrun.DifficultyOnMouseEnter()
+function RegularSizedSpeedrun.DifficultyOnMouseEnter()
   if CanPlayerChangeGroupDifficulty() then
     -- highlight button on mouseover
     SpeedRun_Panel_Difficulty_Switch:SetColor(.9, .9, .8, 1)
   end
 end
 
-function RabbusSpeedrun.DifficultyOnMouseExit()
+function RegularSizedSpeedrun.DifficultyOnMouseExit()
   -- set brightness to reflect availability of setting
   if CanPlayerChangeGroupDifficulty() then
     SpeedRun_Panel_Difficulty_Switch:SetColor(unpack(colorEnabled))
@@ -379,13 +379,13 @@ local function UpdateSimpleUISwitch(simple)
   end
 end
 
-function RabbusSpeedrun.ToggleSimpleUI()
+function RegularSizedSpeedrun.ToggleSimpleUI()
   sV.uiSimple = not sV.uiSimple
-  RabbusSpeedrun.SetSimpleUI(sV.uiSimple)
+  RegularSizedSpeedrun.SetSimpleUI(sV.uiSimple)
 end
 
-function RabbusSpeedrun.ResetSegments()
-  for i,x in ipairs(RabbusSpeedrun.segments) do
+function RegularSizedSpeedrun.ResetSegments()
+  for i,x in ipairs(RegularSizedSpeedrun.segments) do
     local name = WM:GetControlByName(x:GetName())
     x:SetHidden(true)
     x:SetHeight(0)
@@ -398,9 +398,9 @@ function RabbusSpeedrun.ResetSegments()
   end
 end
 
-function RabbusSpeedrun.SetSimpleUI(simple)
+function RegularSizedSpeedrun.SetSimpleUI(simple)
   for i = 1, numActiveSegments do
-    local segment = WM:GetControlByName(RabbusSpeedrun.segments[i]:GetName())
+    local segment = WM:GetControlByName(RegularSizedSpeedrun.segments[i]:GetName())
     if segment then
       local n = segment:GetNamedChild('_Name')
       local d = segment:GetNamedChild('_Diff')
@@ -424,16 +424,16 @@ function RabbusSpeedrun.SetSimpleUI(simple)
   UpdateSimpleUISwitch(simple)
 end
 
-function RabbusSpeedrun.CreateRaidSegmentFromMenu(raidID)
-  RabbusSpeedrun.CreateRaidSegment(raidID)
-  SpeedRun_Score_Label:SetText(RabbusSpeedrun.BestPossible(raidID))
+function RegularSizedSpeedrun.CreateRaidSegmentFromMenu(raidID)
+  RegularSizedSpeedrun.CreateRaidSegment(raidID)
+  SpeedRun_Score_Label:SetText(RegularSizedSpeedrun.BestPossible(raidID))
   -- SpeedRun_TotalTimer_Title:SetText("00:00")
   SpeedRun_TotalTimer_Title:SetText("--:--")
-  local v = RabbusSpeedrun.GetTrialMaxVitality(raidID)
-  SpeedRun_Vitality_Label:SetText(RabbusSpeedrun.FormatVitality(false, v, v))
+  local v = RegularSizedSpeedrun.GetTrialMaxVitality(raidID)
+  SpeedRun_Vitality_Label:SetText(RegularSizedSpeedrun.FormatVitality(false, v, v))
 end
 
-function RabbusSpeedrun.FormatVitality(chat, current, max)
+function RegularSizedSpeedrun.FormatVitality(chat, current, max)
   local displayVitality = ""
   if current and max then
     if chat then
@@ -457,79 +457,79 @@ function RabbusSpeedrun.FormatVitality(chat, current, max)
   return displayVitality
 end
 
-function RabbusSpeedrun.UpdateGlobalTimer()
-  if (not RabbusSpeedrun.IsInTrialZone()) then return end
+function RegularSizedSpeedrun.UpdateGlobalTimer()
+  if (not RegularSizedSpeedrun.IsInTrialZone()) then return end
   local timer
-  if RabbusSpeedrun.FormatRaidTimer(GetRaidDuration(), true) ~= nil
-  then timer = RabbusSpeedrun.FormatRaidTimer(GetRaidDuration(), true)
+  if RegularSizedSpeedrun.FormatRaidTimer(GetRaidDuration(), true) ~= nil
+  then timer = RegularSizedSpeedrun.FormatRaidTimer(GetRaidDuration(), true)
   else timer = "00:00" end
   -- GetRaidTargetTime()
   SpeedRun_TotalTimer_Title:SetText(timer)
-  -- if (bestPossibleTime == nil or RabbusSpeedrun.segmentTimer[RabbusSpeedrun.Step] == RabbusSpeedrun.segmentTimer[RabbusSpeedrun.Step + 1]) then
-  RabbusSpeedrun.UpdateCurrentScore()
+  -- if (bestPossibleTime == nil or RegularSizedSpeedrun.segmentTimer[RegularSizedSpeedrun.Step] == RegularSizedSpeedrun.segmentTimer[RegularSizedSpeedrun.Step + 1]) then
+  RegularSizedSpeedrun.UpdateCurrentScore()
   -- end
 end
 
-function RabbusSpeedrun.UpdateCurrentVitality()
+function RegularSizedSpeedrun.UpdateCurrentVitality()
   local mVitality = GetCurrentRaidStartingReviveCounters()
   local cVitality = GetRaidReviveCountersRemaining()
   if not mVitality then return end
-  SpeedRun_Vitality_Label:SetText(RabbusSpeedrun.FormatVitality(false, cVitality, mVitality))
+  SpeedRun_Vitality_Label:SetText(RegularSizedSpeedrun.FormatVitality(false, cVitality, mVitality))
 end
 
-function RabbusSpeedrun.UpdateCurrentScore()
+function RegularSizedSpeedrun.UpdateCurrentScore()
   -- local timer
   -- if bestPossibleTime then
-  --   if RabbusSpeedrun.segmentTimer[RabbusSpeedrun.Step] == RabbusSpeedrun.segmentTimer[RabbusSpeedrun.Step + 1] or RabbusSpeedrun.segmentTimer[RabbusSpeedrun.Step + 1] == nil  then
+  --   if RegularSizedSpeedrun.segmentTimer[RegularSizedSpeedrun.Step] == RegularSizedSpeedrun.segmentTimer[RegularSizedSpeedrun.Step + 1] or RegularSizedSpeedrun.segmentTimer[RegularSizedSpeedrun.Step + 1] == nil  then
   --     timer = GetRaidDuration() / 1000
   --   else timer = bestPossibleTime / 1000 end
   -- else timer = GetRaidDuration() / 1000 end
 
   local scoreString
-  if RabbusSpeedrun.isComplete == false then
+  if RegularSizedSpeedrun.isComplete == false then
     if IsRaidInProgress() then
       local timer = GetRaidDuration() / 1000
-      local score = math.floor(RabbusSpeedrun.GetScore(timer, GetRaidReviveCountersRemaining(), RabbusSpeedrun.raidID))
+      local score = math.floor(RegularSizedSpeedrun.GetScore(timer, GetRaidReviveCountersRemaining(), RegularSizedSpeedrun.raidID))
       if score <= 0
       then scoreString = "0"
-      else scoreString = RabbusSpeedrun.FormatRaidScore(score)
+      else scoreString = RegularSizedSpeedrun.FormatRaidScore(score)
       end
     else
-      scoreString = RabbusSpeedrun.BestPossible(RabbusSpeedrun.zone)
+      scoreString = RegularSizedSpeedrun.BestPossible(RegularSizedSpeedrun.zone)
     end
   else
     -- in case trial is completed but player is only moving between areas inside the trial.
-    scoreString = RabbusSpeedrun.FormatRaidScore(sV.finalScore)
+    scoreString = RegularSizedSpeedrun.FormatRaidScore(sV.finalScore)
   end
   SpeedRun_Score_Label:SetText(scoreString)
 end
 
-function RabbusSpeedrun.UpdateWindowPanel(waypoint, raid)
+function RegularSizedSpeedrun.UpdateWindowPanel(waypoint, raid)
   waypoint = waypoint or 1
   raid = raid or nil
 
-  if waypoint and raid then RabbusSpeedrun.UpdateSegment(waypoint, raid) end
-  RabbusSpeedrun.UpdateGlobalTimer()
+  if waypoint and raid then RegularSizedSpeedrun.UpdateSegment(waypoint, raid) end
+  RegularSizedSpeedrun.UpdateGlobalTimer()
 end
 
 local function SetSegment(row, step)
-  row:GetNamedChild('_Best'):SetText(RabbusSpeedrun.FormatRaidTimer(RabbusSpeedrun.segmentTimer[step], true))
-  bestPossibleTime = RabbusSpeedrun.segmentTimer[step]
+  row:GetNamedChild('_Best'):SetText(RegularSizedSpeedrun.FormatRaidTimer(RegularSizedSpeedrun.segmentTimer[step], true))
+  bestPossibleTime = RegularSizedSpeedrun.segmentTimer[step]
 
-  local bestTime = RabbusSpeedrun.FormatRaidTimer(RabbusSpeedrun.segmentTimer[step], true)
+  local bestTime = RegularSizedSpeedrun.FormatRaidTimer(RegularSizedSpeedrun.segmentTimer[step], true)
   SpeedRun_Advanced_BestPossible_Value:SetText(bestTime)
 end
 
-function RabbusSpeedrun.CreateRaidSegment(id, same)
+function RegularSizedSpeedrun.CreateRaidSegment(id, same)
   --Reset segment control
-  RabbusSpeedrun.segmentTimer = {}
+  RegularSizedSpeedrun.segmentTimer = {}
   numActiveSegments     = 0
-  RabbusSpeedrun.ResetSegments()
+  RegularSizedSpeedrun.ResetSegments()
 
-  SpeedRun_Timer_Container_Profile:SetText(RabbusSpeedrun.GetActiveProfileDisplay())
+  SpeedRun_Timer_Container_Profile:SetText(RegularSizedSpeedrun.GetActiveProfileDisplay())
   SpeedRun_Timer_Container_Raid:SetText("|ce6b800" .. zo_strformat(SI_ZONE_NAME, GetZoneNameById(id)).. "|r")
 
-  for i, x in ipairs(RabbusSpeedrun.Data.stepList[id]) do
+  for i, x in ipairs(RegularSizedSpeedrun.Data.stepList[id]) do
     local segmentRow
 
     if WM:GetControlByName("SpeedRun_Segment", i) then segmentRow = WM:GetControlByName("SpeedRun_Segment", i)
@@ -537,40 +537,40 @@ function RabbusSpeedrun.CreateRaidSegment(id, same)
 
     segmentRow:GetNamedChild('_Name'):SetText(x);
 
-    if same and RabbusSpeedrun.Step > 1 then
-      if RabbusSpeedrun.currentRaidTimer[i] then
+    if same and RegularSizedSpeedrun.Step > 1 then
+      if RegularSizedSpeedrun.currentRaidTimer[i] then
         if i == 1 then
-          RabbusSpeedrun.segmentTimer[i] = RabbusSpeedrun.currentRaidTimer[i]
+          RegularSizedSpeedrun.segmentTimer[i] = RegularSizedSpeedrun.currentRaidTimer[i]
         else
-          RabbusSpeedrun.segmentTimer[i] = RabbusSpeedrun.currentRaidTimer[i] + RabbusSpeedrun.segmentTimer[i - 1]
+          RegularSizedSpeedrun.segmentTimer[i] = RegularSizedSpeedrun.currentRaidTimer[i] + RegularSizedSpeedrun.segmentTimer[i - 1]
         end
         SetSegment(segmentRow, i)
       else
-        if RabbusSpeedrun.GetSavedTimer(id, i) then
-          RabbusSpeedrun.segmentTimer[i] = RabbusSpeedrun.GetSavedTimer(id, i) + RabbusSpeedrun.segmentTimer[i - 1]
+        if RegularSizedSpeedrun.GetSavedTimer(id, i) then
+          RegularSizedSpeedrun.segmentTimer[i] = RegularSizedSpeedrun.GetSavedTimer(id, i) + RegularSizedSpeedrun.segmentTimer[i - 1]
           SetSegment(segmentRow, i)
         else
-          RabbusSpeedrun.segmentTimer[i] = 0 + RabbusSpeedrun.segmentTimer[i - 1]
+          RegularSizedSpeedrun.segmentTimer[i] = 0 + RegularSizedSpeedrun.segmentTimer[i - 1]
           segmentRow:GetNamedChild('_Best'):SetText(" ")
           bestPossibleTime = 0
           SpeedRun_Advanced_BestPossible_Value:SetText(" ")
         end
       end
     else
-      if RabbusSpeedrun.GetSavedTimer(id, i) then
-        if i == 1 then RabbusSpeedrun.segmentTimer[i] = RabbusSpeedrun.GetSavedTimer(id, i)
-        else RabbusSpeedrun.segmentTimer[i] = RabbusSpeedrun.GetSavedTimer(id, i) + RabbusSpeedrun.segmentTimer[i - 1] end
+      if RegularSizedSpeedrun.GetSavedTimer(id, i) then
+        if i == 1 then RegularSizedSpeedrun.segmentTimer[i] = RegularSizedSpeedrun.GetSavedTimer(id, i)
+        else RegularSizedSpeedrun.segmentTimer[i] = RegularSizedSpeedrun.GetSavedTimer(id, i) + RegularSizedSpeedrun.segmentTimer[i - 1] end
 
         SetSegment(segmentRow, i)
 
-        -- segmentRow:GetNamedChild('_Best'):SetText(RabbusSpeedrun.FormatRaidTimer(RabbusSpeedrun.segmentTimer[i], true))
-        -- bestPossibleTime = RabbusSpeedrun.segmentTimer[i]
+        -- segmentRow:GetNamedChild('_Best'):SetText(RegularSizedSpeedrun.FormatRaidTimer(RegularSizedSpeedrun.segmentTimer[i], true))
+        -- bestPossibleTime = RegularSizedSpeedrun.segmentTimer[i]
         --
-        -- local bestTime = RabbusSpeedrun.FormatRaidTimer(RabbusSpeedrun.segmentTimer[i], true)
+        -- local bestTime = RegularSizedSpeedrun.FormatRaidTimer(RegularSizedSpeedrun.segmentTimer[i], true)
         -- SpeedRun_Advanced_BestPossible_Value:SetText(bestTime)
       else
-        if i == 1 then RabbusSpeedrun.segmentTimer[i] = 0
-        else RabbusSpeedrun.segmentTimer[i] = 0 + RabbusSpeedrun.segmentTimer[i - 1] end
+        if i == 1 then RegularSizedSpeedrun.segmentTimer[i] = 0
+        else RegularSizedSpeedrun.segmentTimer[i] = 0 + RegularSizedSpeedrun.segmentTimer[i - 1] end
         segmentRow:GetNamedChild('_Best'):SetText(" ")
         bestPossibleTime = 0
         SpeedRun_Advanced_BestPossible_Value:SetText(" ")
@@ -581,78 +581,78 @@ function RabbusSpeedrun.CreateRaidSegment(id, same)
       segmentRow:SetAnchor(TOPLEFT, SpeedRun_Timer_Container, TOPLEFT, 0, 40)
     else
       -- segmentRow:SetAnchor(TOPLEFT, SpeedRun_Timer_Container, TOPLEFT, 0, (i * 20) + 20)
-      segmentRow:SetAnchor(TOPLEFT, RabbusSpeedrun.segments[i - 1], TOPLEFT, 0, 20)
+      segmentRow:SetAnchor(TOPLEFT, RegularSizedSpeedrun.segments[i - 1], TOPLEFT, 0, 20)
     end
 
     segmentRow:SetHidden(false)
-    RabbusSpeedrun.segments[i] = segmentRow;
+    RegularSizedSpeedrun.segments[i] = segmentRow;
     numActiveSegments    = numActiveSegments + 1
   end
 
   SpeedRun_Timer_Container_Raid:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
-  RabbusSpeedrun.UpdateGlobalTimer()
-  RabbusSpeedrun.isUIDrawn = true
-  RabbusSpeedrun.SetSimpleUI(sV.uiSimple)
-  RabbusSpeedrun.SetUIHidden(not sV.showUI)
+  RegularSizedSpeedrun.UpdateGlobalTimer()
+  RegularSizedSpeedrun.isUIDrawn = true
+  RegularSizedSpeedrun.SetSimpleUI(sV.uiSimple)
+  RegularSizedSpeedrun.SetUIHidden(not sV.showUI)
 
   if (id == 677 or id == 1227) and cV.individualArenaTimers then
-    RabbusSpeedrun:dbg(1, "|cffdf80<<1>>'s|r individual |ce6b800<<2>> |cfffffftimers loaded|r.", GetUnitName('player'), GetZoneNameById(id))
+    RegularSizedSpeedrun:dbg(1, "|cffdf80<<1>>'s|r individual |ce6b800<<2>> |cfffffftimers loaded|r.", GetUnitName('player'), GetZoneNameById(id))
   else
-    RabbusSpeedrun:dbg(1, "<<1>> |ce6b800<<2>> |cfffffftimers loaded|r.", RabbusSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(id))
+    RegularSizedSpeedrun:dbg(1, "<<1>> |ce6b800<<2>> |cfffffftimers loaded|r.", RegularSizedSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(id))
   end
 end
 
-function RabbusSpeedrun.UpdateSegment(step, raid)
+function RegularSizedSpeedrun.UpdateSegment(step, raid)
   --TODO Divide into multiple function
   -- if raid == nil then
   --     raid = GetZoneId(GetUnitZoneIndex("player"))
   -- end
 
   local difference
-  if (RabbusSpeedrun.segmentTimer[step] ~= nil and RabbusSpeedrun.segmentTimer[step] ~= RabbusSpeedrun.segmentTimer[step + 1])  then
-    difference = RabbusSpeedrun.currentRaidTimer[step] - RabbusSpeedrun.segmentTimer[step]
+  if (RegularSizedSpeedrun.segmentTimer[step] ~= nil and RegularSizedSpeedrun.segmentTimer[step] ~= RegularSizedSpeedrun.segmentTimer[step + 1])  then
+    difference = RegularSizedSpeedrun.currentRaidTimer[step] - RegularSizedSpeedrun.segmentTimer[step]
   else difference = 0 end
 
   --TODO correct previousSegementDif
   local previousSegementDif = 0
   if step > 1 then
-    if RabbusSpeedrun.GetSavedTimer(RabbusSpeedrun.raidID, step) then
-      if RabbusSpeedrun.currentRaidTimer[step - 1] ~= nil then
-        previousSegementDif = RabbusSpeedrun.currentRaidTimer[step] - RabbusSpeedrun.currentRaidTimer[step - 1] - RabbusSpeedrun.GetSavedTimer(RabbusSpeedrun.raidID, step)
+    if RegularSizedSpeedrun.GetSavedTimer(RegularSizedSpeedrun.raidID, step) then
+      if RegularSizedSpeedrun.currentRaidTimer[step - 1] ~= nil then
+        previousSegementDif = RegularSizedSpeedrun.currentRaidTimer[step] - RegularSizedSpeedrun.currentRaidTimer[step - 1] - RegularSizedSpeedrun.GetSavedTimer(RegularSizedSpeedrun.raidID, step)
       else
         previousSegementDif = 0
       end
     end
 
   elseif step == 1 then
-    if RabbusSpeedrun.GetSavedTimer(RabbusSpeedrun.raidID, step) then
-      previousSegementDif = RabbusSpeedrun.currentRaidTimer[step] - RabbusSpeedrun.GetSavedTimer(RabbusSpeedrun.raidID, step)
+    if RegularSizedSpeedrun.GetSavedTimer(RegularSizedSpeedrun.raidID, step) then
+      previousSegementDif = RegularSizedSpeedrun.currentRaidTimer[step] - RegularSizedSpeedrun.GetSavedTimer(RegularSizedSpeedrun.raidID, step)
     else
       previousSegementDif = 0
     end
   end
 
   --TODO IF NO PRESAVED TIME
-  if RabbusSpeedrun.segmentTimer[table.getn(RabbusSpeedrun.segmentTimer)] then
-    bestPossibleTime = difference + RabbusSpeedrun.segmentTimer[table.getn(RabbusSpeedrun.segmentTimer)]
-    SpeedRun_Advanced_BestPossible_Value:SetText(RabbusSpeedrun.FormatRaidTimer(bestPossibleTime))
+  if RegularSizedSpeedrun.segmentTimer[table.getn(RegularSizedSpeedrun.segmentTimer)] then
+    bestPossibleTime = difference + RegularSizedSpeedrun.segmentTimer[table.getn(RegularSizedSpeedrun.segmentTimer)]
+    SpeedRun_Advanced_BestPossible_Value:SetText(RegularSizedSpeedrun.FormatRaidTimer(bestPossibleTime))
   else
     SpeedRun_Advanced_BestPossible_Value:SetText(" ")
   end
 
-  SpeedRun_Advanced_PreviousSegment:SetText(RabbusSpeedrun.FormatRaidTimer(previousSegementDif))
+  SpeedRun_Advanced_PreviousSegment:SetText(RegularSizedSpeedrun.FormatRaidTimer(previousSegementDif))
 
-  if RabbusSpeedrun.Step and RabbusSpeedrun.currentRaidTimer[RabbusSpeedrun.Step] and RabbusSpeedrun.segments[RabbusSpeedrun.Step] then
-    RabbusSpeedrun.segments[RabbusSpeedrun.Step]:GetNamedChild('_Best'):SetText(RabbusSpeedrun.FormatRaidTimer(RabbusSpeedrun.currentRaidTimer[RabbusSpeedrun.Step]))
+  if RegularSizedSpeedrun.Step and RegularSizedSpeedrun.currentRaidTimer[RegularSizedSpeedrun.Step] and RegularSizedSpeedrun.segments[RegularSizedSpeedrun.Step] then
+    RegularSizedSpeedrun.segments[RegularSizedSpeedrun.Step]:GetNamedChild('_Best'):SetText(RegularSizedSpeedrun.FormatRaidTimer(RegularSizedSpeedrun.currentRaidTimer[RegularSizedSpeedrun.Step]))
   end
 
-  local segment = RabbusSpeedrun.segments[RabbusSpeedrun.Step]:GetNamedChild('_Diff')
-  segment:SetText(RabbusSpeedrun.FormatRaidTimer(difference, true))
-  RabbusSpeedrun.DifferenceColor(difference, segment)
-  RabbusSpeedrun.DifferenceColor(previousSegementDif, SpeedRun_Advanced_PreviousSegment)
+  local segment = RegularSizedSpeedrun.segments[RegularSizedSpeedrun.Step]:GetNamedChild('_Diff')
+  segment:SetText(RegularSizedSpeedrun.FormatRaidTimer(difference, true))
+  RegularSizedSpeedrun.DifferenceColor(difference, segment)
+  RegularSizedSpeedrun.DifferenceColor(previousSegementDif, SpeedRun_Advanced_PreviousSegment)
 end
 
-function RabbusSpeedrun.DifferenceColor(diff, segment)
+function RegularSizedSpeedrun.DifferenceColor(diff, segment)
   if diff > (-0.001) then
     segment:SetColor(unpack { 1, 0, 0 })
   else
@@ -660,43 +660,43 @@ function RabbusSpeedrun.DifferenceColor(diff, segment)
   end
 end
 
-function RabbusSpeedrun.ShowFoodReminder(show)
+function RegularSizedSpeedrun.ShowFoodReminder(show)
   SpeedRun_Food:SetHidden(not show)
   SpeedRun_Food:SetMouseEnabled(show)
   SpeedRun_Food:SetMovable(show)
 end
 
-function RabbusSpeedrun.UpdateFoodReminderSize()
+function RegularSizedSpeedrun.UpdateFoodReminderSize()
   local path = "EsoUI/Common/Fonts/univers67.otf"
   local outline = "soft-shadow-thick"
   SpeedRun_Food_Label:SetFont(path .. "|" .. sV.food.size .. "|" .. outline)
 end
 
 local function shouldHideUI()
-  if RabbusSpeedrun.inMenu then return false end
+  if RegularSizedSpeedrun.inMenu then return false end
   if (hudHidden and huduiHidden) then return true end
   if (sV.showUI ~= true) or (cV.isTracking ~= true) then return true end
-  if not RabbusSpeedrun.IsInTrialZone() then return true end
+  if not RegularSizedSpeedrun.IsInTrialZone() then return true end
   -- if (sV.hideInCombat and IsUnitInCombat("player")) then return true end
   return false
 end
 
 local function shouldHidePanel()
   if not sV.showPanelAlways then return shouldHideUI() end
-  if RabbusSpeedrun.inMenu then return false end
+  if RegularSizedSpeedrun.inMenu then return false end
   if (hudHidden and huduiHidden) then return true end
   return false
 end
 
-function RabbusSpeedrun.UpdateVisibility()
+function RegularSizedSpeedrun.UpdateVisibility()
   local hidden = SpeedRun_Timer_Container:IsHidden()
   local hide   = shouldHideUI()
-  if (hidden ~= hide) then RabbusSpeedrun.SetUIHidden(hide) end
+  if (hidden ~= hide) then RegularSizedSpeedrun.SetUIHidden(hide) end
   SpeedRun_Panel:SetHidden(shouldHidePanel())
-  RabbusSpeedrun.UpdateAlpha()
+  RegularSizedSpeedrun.UpdateAlpha()
 end
 
-function RabbusSpeedrun.UpdateUIConfiguration()
+function RegularSizedSpeedrun.UpdateUIConfiguration()
   local h = SCENE_MANAGER:GetScene("hud")
   local hUI = SCENE_MANAGER:GetScene("hudui")
 
@@ -705,65 +705,65 @@ function RabbusSpeedrun.UpdateUIConfiguration()
 
     -- if (sV.showUI ~= true) or (cV.isTracking ~= true) then
     --   SpeedRun_Panel:SetHidden(not sV.showPanelAlways)
-    --   RabbusSpeedrun.SetUIHidden(true)
+    --   RegularSizedSpeedrun.SetUIHidden(true)
     --   return
     -- end
 
     if newState == SCENE_SHOWN then
       hudHidden = false
-      -- if RabbusSpeedrun.IsInTrialZone() then
+      -- if RegularSizedSpeedrun.IsInTrialZone() then
       --   SpeedRun_Panel:SetHidden(false)
-      --   RabbusSpeedrun.SetUIHidden(false)
+      --   RegularSizedSpeedrun.SetUIHidden(false)
       -- else
       --   SpeedRun_Panel:SetHidden(not sV.showPanelAlways)
-      --   RabbusSpeedrun.SetUIHidden(true)
+      --   RegularSizedSpeedrun.SetUIHidden(true)
       -- end
     else
       hudHidden = true
       -- SpeedRun_Panel:SetHidden(true)
-      -- RabbusSpeedrun.SetUIHidden(true)
+      -- RegularSizedSpeedrun.SetUIHidden(true)
     end
-    RabbusSpeedrun.UpdateVisibility()
+    RegularSizedSpeedrun.UpdateVisibility()
   end
 
   local function OnStateChangedHudUI(oldState, newState)
 
     -- if (sV.showUI ~= true) or (cV.isTracking ~= true) then
     --   SpeedRun_Panel:SetHidden(not sV.showPanelAlways)
-    --   RabbusSpeedrun.SetUIHidden(true)
+    --   RegularSizedSpeedrun.SetUIHidden(true)
     --   return
     -- end
 
     if newState == SCENE_SHOWN then
       huduiHidden = false
-      -- if RabbusSpeedrun.IsInTrialZone() then
+      -- if RegularSizedSpeedrun.IsInTrialZone() then
       --   SpeedRun_Panel:SetHidden(false)
-      --   RabbusSpeedrun.SetUIHidden(false)
+      --   RegularSizedSpeedrun.SetUIHidden(false)
       -- else
       --   SpeedRun_Panel:SetHidden(not sV.showPanelAlways)
-      --   RabbusSpeedrun.SetUIHidden(true)
+      --   RegularSizedSpeedrun.SetUIHidden(true)
       -- end
     else
       huduiHidden = true
       -- SpeedRun_Panel:SetHidden(true)
-      -- RabbusSpeedrun.SetUIHidden(true)
+      -- RegularSizedSpeedrun.SetUIHidden(true)
     end
 
-    RabbusSpeedrun.UpdateVisibility()
+    RegularSizedSpeedrun.UpdateVisibility()
   end
 
-  EM:UnregisterForEvent(RabbusSpeedrun.name .. "HideInCombat", EVENT_PLAYER_COMBAT_STATE)
+  EM:UnregisterForEvent(RegularSizedSpeedrun.name .. "HideInCombat", EVENT_PLAYER_COMBAT_STATE)
 
   local function enableUI()
-    if not RabbusSpeedrun.isUIDrawn then RabbusSpeedrun.SetDefaultUI() end
+    if not RegularSizedSpeedrun.isUIDrawn then RegularSizedSpeedrun.SetDefaultUI() end
 
     h:RegisterCallback("StateChange", OnStateChangedHud)
     hUI:RegisterCallback("StateChange", OnStateChangedHudUI)
 
 
-    -- if (not RabbusSpeedrun.inMenu) then RabbusSpeedrun.SetUIHidden(shouldHideUI()) end
+    -- if (not RegularSizedSpeedrun.inMenu) then RegularSizedSpeedrun.SetUIHidden(shouldHideUI()) end
 
-    RabbusSpeedrun.UpdateVisibility()
+    RegularSizedSpeedrun.UpdateVisibility()
 
     uiTracked = true
   end
@@ -772,9 +772,9 @@ function RabbusSpeedrun.UpdateUIConfiguration()
     h:UnregisterCallback("StateChange")
     hUI:UnregisterCallback("StateChange")
 
-    RabbusSpeedrun.UpdateVisibility()
+    RegularSizedSpeedrun.UpdateVisibility()
     -- SpeedRun_Panel:SetHidden(not sV.showPanelAlways)
-    -- RabbusSpeedrun.SetUIHidden(true)
+    -- RegularSizedSpeedrun.SetUIHidden(true)
     uiTracked = false
   end
 
@@ -783,9 +783,9 @@ function RabbusSpeedrun.UpdateUIConfiguration()
   end
 
   if sV.changeAlpha then
-    EM:RegisterForEvent(RabbusSpeedrun.name .. "HideInCombat", EVENT_PLAYER_COMBAT_STATE, function()
+    EM:RegisterForEvent(RegularSizedSpeedrun.name .. "HideInCombat", EVENT_PLAYER_COMBAT_STATE, function()
       combatState = IsUnitInCombat("player")
-      RabbusSpeedrun.UpdateVisibility()
+      RegularSizedSpeedrun.UpdateVisibility()
     end)
   end
 
@@ -797,15 +797,15 @@ function InitiatePanelOptions(p)
   p.tooltip = "Open dropdown"
 end
 
-function RabbusSpeedrun.InitiateUI()
-  sV = RabbusSpeedrun.savedVariables
-  cV = RabbusSpeedrun.savedSettings
+function RegularSizedSpeedrun.InitiateUI()
+  sV = RegularSizedSpeedrun.savedVariables
+  cV = RegularSizedSpeedrun.savedSettings
 
-  RabbusSpeedrun.SetUIHidden(true)
-  RabbusSpeedrun.ResetUI()
-  RabbusSpeedrun.ResetAnchors()
-  RabbusSpeedrun.SetDefaultUI()
-  RabbusSpeedrun.UpdateAnchors()
+  RegularSizedSpeedrun.SetUIHidden(true)
+  RegularSizedSpeedrun.ResetUI()
+  RegularSizedSpeedrun.ResetAnchors()
+  RegularSizedSpeedrun.SetDefaultUI()
+  RegularSizedSpeedrun.UpdateAnchors()
   SpeedRun_Panel:SetMovable(sV.unlockUI)
 
   local food = SpeedRun_Food
@@ -815,19 +815,19 @@ function RabbusSpeedrun.InitiateUI()
   then food:SetAnchor(CENTER, GuiRoot, CENTER, 0, 0)
   else food:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, sV.food.x, sV.food.y) end
 
-  RabbusSpeedrun.UpdateFoodReminderSize()
-  RabbusSpeedrun.UpdateFoodReminderInterval(GetGameTimeMilliseconds() / 1000, 0)
+  RegularSizedSpeedrun.UpdateFoodReminderSize()
+  RegularSizedSpeedrun.UpdateFoodReminderInterval(GetGameTimeMilliseconds() / 1000, 0)
 
   local options = SpeedRun_Panel:GetNamedChild("_Options")
   InitiatePanelOptions(options)
-  RabbusSpeedrun.UpdateDifficultySwitch()
+  RegularSizedSpeedrun.UpdateDifficultySwitch()
 
   if (not sV.showPanelAlways and ((sV.showUI ~= true) or (cV.isTracking ~= true))) then return end
 
-  RabbusSpeedrun.UpdateUIConfiguration()
-  EM:RegisterForEvent(RabbusSpeedrun.name .. "Leader", EVENT_LEADER_UPDATE, RabbusSpeedrun.UpdateDifficultySwitch)
-  EM:RegisterForEvent(RabbusSpeedrun.name .. "LeftGroup", EVENT_GROUP_MEMBER_LEFT, RabbusSpeedrun.UpdateDifficultySwitch)
-  EM:AddFilterForEvent(RabbusSpeedrun.name .. "LeftGroup", EVENT_GROUP_MEMBER_LEFT, REGISTER_FILTER_UNIT_TAG, "player")
+  RegularSizedSpeedrun.UpdateUIConfiguration()
+  EM:RegisterForEvent(RegularSizedSpeedrun.name .. "Leader", EVENT_LEADER_UPDATE, RegularSizedSpeedrun.UpdateDifficultySwitch)
+  EM:RegisterForEvent(RegularSizedSpeedrun.name .. "LeftGroup", EVENT_GROUP_MEMBER_LEFT, RegularSizedSpeedrun.UpdateDifficultySwitch)
+  EM:AddFilterForEvent(RegularSizedSpeedrun.name .. "LeftGroup", EVENT_GROUP_MEMBER_LEFT, REGISTER_FILTER_UNIT_TAG, "player")
 end
 
 --[[

@@ -1,12 +1,12 @@
-RabbusSpeedrun = RabbusSpeedrun or {}
-local RabbusSpeedrun = RabbusSpeedrun
+RegularSizedSpeedrun = RegularSizedSpeedrun or {}
+local RegularSizedSpeedrun = RegularSizedSpeedrun
 local sV
 local cV
 ---------------------------
 ---- Variables Default ----
 ---------------------------
 -- Account wide
-RabbusSpeedrun.Default_Account = {
+RegularSizedSpeedrun.Default_Account = {
   --table
   scores                  = {},
   lastScores              = {},
@@ -73,7 +73,7 @@ RabbusSpeedrun.Default_Account = {
   }
 }
 -- Character
-RabbusSpeedrun.Default_Character = {
+RegularSizedSpeedrun.Default_Character = {
   activeProfile         = "",
   debugMode             = 0,
   isTracking            = true,
@@ -207,6 +207,17 @@ local defaultRaidList = {
   [1263]  = {
     name          = "RG",
     id            = 1263,
+    timerSteps    = {},
+    scoreFactors  = {
+      vitality      = 0,
+      bestTime      = nil,
+      bestScore     = 0,
+      scoreReasons  = {}
+    }
+  },
+  [1344]  = {
+    name          = "DSR",
+    id            = 1344,
     timerSteps    = {},
     scoreFactors  = {
       vitality      = 0,
@@ -364,6 +375,14 @@ local defaultCustomTimerSteps = {
     [6]  = ""
   },
   [1263]  = { --RG
+    [1]  = "",
+    [2]  = "",
+    [3]  = "",
+    [4]  = "",
+    [5]  = "",
+    [6]  = ""
+  },
+  [1344]  = { --DSR
     [1]  = "",
     [2]  = "",
     [3]  = "",
@@ -636,17 +655,17 @@ local soloCustomList = {
 -------------------
 ---- Functions ----
 -------------------
-function RabbusSpeedrun:GenerateDefaults()
-  RabbusSpeedrun.Default_Account.scores               = RabbusSpeedrun.GetDefaultScores()
-  RabbusSpeedrun.Default_Character.arenaList          = RabbusSpeedrun.GetDefaultArenaList()
-  RabbusSpeedrun.Default_Character.customTimerSteps   = RabbusSpeedrun.GetDefaultArenaCustomSteps()
-  defaultProfile.raidList                       = RabbusSpeedrun.GetDefaultRaidList()
-  defaultProfile.customTimerSteps               = RabbusSpeedrun.GetDefaultCustomTimerSteps()
+function RegularSizedSpeedrun:GenerateDefaults()
+  RegularSizedSpeedrun.Default_Account.scores               = RegularSizedSpeedrun.GetDefaultScores()
+  RegularSizedSpeedrun.Default_Character.arenaList          = RegularSizedSpeedrun.GetDefaultArenaList()
+  RegularSizedSpeedrun.Default_Character.customTimerSteps   = RegularSizedSpeedrun.GetDefaultArenaCustomSteps()
+  defaultProfile.raidList                       = RegularSizedSpeedrun.GetDefaultRaidList()
+  defaultProfile.customTimerSteps               = RegularSizedSpeedrun.GetDefaultCustomTimerSteps()
 end
 
-function RabbusSpeedrun.LoadVariables()
-  sV = RabbusSpeedrun.savedVariables
-  cV = RabbusSpeedrun.savedSettings
+function RegularSizedSpeedrun.LoadVariables()
+  sV = RegularSizedSpeedrun.savedVariables
+  cV = RegularSizedSpeedrun.savedSettings
 
   -- Create "Default" profile and set it as active if doesn't already exist.
   if sV.profiles["Default"] == nil or sV.profiles["Default"] == "" then
@@ -656,138 +675,140 @@ function RabbusSpeedrun.LoadVariables()
 
   if (cV.activeProfile == nil or cV.activeProfile == "" or not sV.profiles[cV.activeProfile]) then cV.activeProfile = "Default" end
 
-  RabbusSpeedrun.activeProfile = cV.activeProfile
+  RegularSizedSpeedrun.activeProfile = cV.activeProfile
 
   -- Check if it's the first time player uses this version.
-  RabbusSpeedrun.UpdateSettings(sV.profileVersion, cV.charVersion)
+  RegularSizedSpeedrun.UpdateSettings(sV.profileVersion, cV.charVersion)
 
   -- Cleanup if needed.
-  RabbusSpeedrun.ValidateProfile(RabbusSpeedrun.activeProfile)
+  RegularSizedSpeedrun.ValidateProfile(RegularSizedSpeedrun.activeProfile)
 
   -- Load Trial Variables. In case of addon being loaded / reloaded inside an active trial.
   -- Tables
-  RabbusSpeedrun.LoadCustomTimers(RabbusSpeedrun.activeProfile)
-  RabbusSpeedrun.LoadRaidlist(RabbusSpeedrun.activeProfile)
+  RegularSizedSpeedrun.LoadCustomTimers(RegularSizedSpeedrun.activeProfile)
+  RegularSizedSpeedrun.LoadRaidlist(RegularSizedSpeedrun.activeProfile)
 
-  RabbusSpeedrun.scores           = sV.scores
-  RabbusSpeedrun.totalScore       = sV.totalScore
+  RegularSizedSpeedrun.scores           = sV.scores
+  RegularSizedSpeedrun.totalScore       = sV.totalScore
   -- Trial Status
-  RabbusSpeedrun.raidID           = sV.raidID
-  RabbusSpeedrun.Step             = sV.Step
-  RabbusSpeedrun.arenaRound       = sV.arenaRound
-  RabbusSpeedrun.segmentTimer     = sV.segmentTimer
-  RabbusSpeedrun.currentRaidTimer = sV.currentRaidTimer
-  RabbusSpeedrun.currentBossName  = sV.currentBossName
-  RabbusSpeedrun.lastBossName     = sV.lastBossName
-  RabbusSpeedrun.isBossDead       = sV.isBossDead
-  RabbusSpeedrun.isComplete       = sV.isComplete
-  RabbusSpeedrun.timeStarted      = sV.timeStarted
-  RabbusSpeedrun.trialState       = sV.trialState
-  RabbusSpeedrun.addsOnCR         = sV.profiles[RabbusSpeedrun.activeProfile].addsOnCR
-  RabbusSpeedrun.hmOnSS           = sV.profiles[RabbusSpeedrun.activeProfile].hmOnSS
+  RegularSizedSpeedrun.raidID           = sV.raidID
+  RegularSizedSpeedrun.Step             = sV.Step
+  RegularSizedSpeedrun.arenaRound       = sV.arenaRound
+  RegularSizedSpeedrun.segmentTimer     = sV.segmentTimer
+  RegularSizedSpeedrun.currentRaidTimer = sV.currentRaidTimer
+  RegularSizedSpeedrun.currentBossName  = sV.currentBossName
+  RegularSizedSpeedrun.lastBossName     = sV.lastBossName
+  RegularSizedSpeedrun.isBossDead       = sV.isBossDead
+  RegularSizedSpeedrun.isComplete       = sV.isComplete
+  RegularSizedSpeedrun.timeStarted      = sV.timeStarted
+  RegularSizedSpeedrun.trialState       = sV.trialState
+  RegularSizedSpeedrun.addsOnCR         = sV.profiles[RegularSizedSpeedrun.activeProfile].addsOnCR
+  RegularSizedSpeedrun.hmOnSS           = sV.profiles[RegularSizedSpeedrun.activeProfile].hmOnSS
 end
 --------------------
 ---- Player Data ---
 --------------------
-function RabbusSpeedrun.LoadRaidlist(profile)
-  RabbusSpeedrun.raidList[635] 	= sV.profiles[profile].raidList[635]
-  RabbusSpeedrun.raidList[636] 	= sV.profiles[profile].raidList[636]
-  RabbusSpeedrun.raidList[638] 	= sV.profiles[profile].raidList[638]
-  RabbusSpeedrun.raidList[639] 	= sV.profiles[profile].raidList[639]
-  RabbusSpeedrun.raidList[725] 	= sV.profiles[profile].raidList[725]
-  RabbusSpeedrun.raidList[975] 	= sV.profiles[profile].raidList[975]
-  RabbusSpeedrun.raidList[1000]	= sV.profiles[profile].raidList[1000]
-  RabbusSpeedrun.raidList[1051]	= sV.profiles[profile].raidList[1051]
-  RabbusSpeedrun.raidList[1082]	= sV.profiles[profile].raidList[1082]
-  RabbusSpeedrun.raidList[1121]	= sV.profiles[profile].raidList[1121]
-  RabbusSpeedrun.raidList[1196]	= sV.profiles[profile].raidList[1196]
-  RabbusSpeedrun.raidList[1263]	= sV.profiles[profile].raidList[1263]
-  RabbusSpeedrun.raidList[1427]	= sV.profiles[profile].raidList[1427]
-  RabbusSpeedrun.raidList[1478]	= sV.profiles[profile].raidList[1478]
+function RegularSizedSpeedrun.LoadRaidlist(profile)
+  RegularSizedSpeedrun.raidList[635] 	= sV.profiles[profile].raidList[635]
+  RegularSizedSpeedrun.raidList[636] 	= sV.profiles[profile].raidList[636]
+  RegularSizedSpeedrun.raidList[638] 	= sV.profiles[profile].raidList[638]
+  RegularSizedSpeedrun.raidList[639] 	= sV.profiles[profile].raidList[639]
+  RegularSizedSpeedrun.raidList[725] 	= sV.profiles[profile].raidList[725]
+  RegularSizedSpeedrun.raidList[975] 	= sV.profiles[profile].raidList[975]
+  RegularSizedSpeedrun.raidList[1000]	= sV.profiles[profile].raidList[1000]
+  RegularSizedSpeedrun.raidList[1051]	= sV.profiles[profile].raidList[1051]
+  RegularSizedSpeedrun.raidList[1082]	= sV.profiles[profile].raidList[1082]
+  RegularSizedSpeedrun.raidList[1121]	= sV.profiles[profile].raidList[1121]
+  RegularSizedSpeedrun.raidList[1196]	= sV.profiles[profile].raidList[1196]
+  RegularSizedSpeedrun.raidList[1263]	= sV.profiles[profile].raidList[1263]
+  RegularSizedSpeedrun.raidList[1344] = sV.profiles[profile].raidList[1344]
+  RegularSizedSpeedrun.raidList[1427]	= sV.profiles[profile].raidList[1427]
+  RegularSizedSpeedrun.raidList[1478]	= sV.profiles[profile].raidList[1478]
   if cV.individualArenaTimers then
-    RabbusSpeedrun.raidList[677] 	= cV.arenaList[677]
-    RabbusSpeedrun.raidList[1227]	= cV.arenaList[1227]
+    RegularSizedSpeedrun.raidList[677] 	= cV.arenaList[677]
+    RegularSizedSpeedrun.raidList[1227]	= cV.arenaList[1227]
   else
-    RabbusSpeedrun.raidList[677] 	= sV.profiles[profile].raidList[677]
-    RabbusSpeedrun.raidList[1227]	= sV.profiles[profile].raidList[1227]
+    RegularSizedSpeedrun.raidList[677] 	= sV.profiles[profile].raidList[677]
+    RegularSizedSpeedrun.raidList[1227]	= sV.profiles[profile].raidList[1227]
   end
 end
 
-function RabbusSpeedrun.LoadCustomTimers(profile)
-  RabbusSpeedrun.customTimerSteps[635] 	= sV.profiles[profile].customTimerSteps[635]
-  RabbusSpeedrun.customTimerSteps[636] 	= sV.profiles[profile].customTimerSteps[636]
-  RabbusSpeedrun.customTimerSteps[638] 	= sV.profiles[profile].customTimerSteps[638]
-  RabbusSpeedrun.customTimerSteps[639] 	= sV.profiles[profile].customTimerSteps[639]
-  RabbusSpeedrun.customTimerSteps[725] 	= sV.profiles[profile].customTimerSteps[725]
-  RabbusSpeedrun.customTimerSteps[975] 	= sV.profiles[profile].customTimerSteps[975]
-  RabbusSpeedrun.customTimerSteps[1000]	= sV.profiles[profile].customTimerSteps[1000]
-  RabbusSpeedrun.customTimerSteps[1051]	= sV.profiles[profile].customTimerSteps[1051]
-  RabbusSpeedrun.customTimerSteps[1082]	= sV.profiles[profile].customTimerSteps[1082]
-  RabbusSpeedrun.customTimerSteps[1121]	= sV.profiles[profile].customTimerSteps[1121]
-  RabbusSpeedrun.customTimerSteps[1196]	= sV.profiles[profile].customTimerSteps[1196]
-  RabbusSpeedrun.customTimerSteps[1263]	= sV.profiles[profile].customTimerSteps[1263]
-  RabbusSpeedrun.customTimerSteps[1427]	= sV.profiles[profile].customTimerSteps[1427]
-  RabbusSpeedrun.customTimerSteps[1478]	= sV.profiles[profile].customTimerSteps[1478]
+function RegularSizedSpeedrun.LoadCustomTimers(profile)
+  RegularSizedSpeedrun.customTimerSteps[635] 	= sV.profiles[profile].customTimerSteps[635]
+  RegularSizedSpeedrun.customTimerSteps[636] 	= sV.profiles[profile].customTimerSteps[636]
+  RegularSizedSpeedrun.customTimerSteps[638] 	= sV.profiles[profile].customTimerSteps[638]
+  RegularSizedSpeedrun.customTimerSteps[639] 	= sV.profiles[profile].customTimerSteps[639]
+  RegularSizedSpeedrun.customTimerSteps[725] 	= sV.profiles[profile].customTimerSteps[725]
+  RegularSizedSpeedrun.customTimerSteps[975] 	= sV.profiles[profile].customTimerSteps[975]
+  RegularSizedSpeedrun.customTimerSteps[1000]	= sV.profiles[profile].customTimerSteps[1000]
+  RegularSizedSpeedrun.customTimerSteps[1051]	= sV.profiles[profile].customTimerSteps[1051]
+  RegularSizedSpeedrun.customTimerSteps[1082]	= sV.profiles[profile].customTimerSteps[1082]
+  RegularSizedSpeedrun.customTimerSteps[1121]	= sV.profiles[profile].customTimerSteps[1121]
+  RegularSizedSpeedrun.customTimerSteps[1196]	= sV.profiles[profile].customTimerSteps[1196]
+  RegularSizedSpeedrun.customTimerSteps[1263]	= sV.profiles[profile].customTimerSteps[1263]
+  RegularSizedSpeedrun.customTimerSteps[1344] = sV.profiles[profile].customTimerSteps[1344]
+  RegularSizedSpeedrun.customTimerSteps[1427]	= sV.profiles[profile].customTimerSteps[1427]
+  RegularSizedSpeedrun.customTimerSteps[1478]	= sV.profiles[profile].customTimerSteps[1478]
   if cV.individualArenaTimers then
-    RabbusSpeedrun.customTimerSteps[677] 	= cV.customTimerSteps[677]
-    RabbusSpeedrun.customTimerSteps[1227]	= cV.customTimerSteps[1227]
+    RegularSizedSpeedrun.customTimerSteps[677] 	= cV.customTimerSteps[677]
+    RegularSizedSpeedrun.customTimerSteps[1227]	= cV.customTimerSteps[1227]
   else
-    RabbusSpeedrun.customTimerSteps[677] 	= sV.profiles[profile].customTimerSteps[677]
-    RabbusSpeedrun.customTimerSteps[1227]	= sV.profiles[profile].customTimerSteps[1227]
+    RegularSizedSpeedrun.customTimerSteps[677] 	= sV.profiles[profile].customTimerSteps[677]
+    RegularSizedSpeedrun.customTimerSteps[1227]	= sV.profiles[profile].customTimerSteps[1227]
   end
 end
 
-function RabbusSpeedrun.SaveTimerStep(raid, step, timer)
-  RabbusSpeedrun.raidList[raid].timerSteps[step] = timer
+function RegularSizedSpeedrun.SaveTimerStep(raid, step, timer)
+  RegularSizedSpeedrun.raidList[raid].timerSteps[step] = timer
   if (raid == 677 or raid == 1227) and cV.individualArenaTimers
   then cV.arenaList[raid].timerSteps[step] = timer
-  else sV.profiles[RabbusSpeedrun.activeProfile].raidList[raid].timerSteps[step] = timer end
+  else sV.profiles[RegularSizedSpeedrun.activeProfile].raidList[raid].timerSteps[step] = timer end
 end
 
-function RabbusSpeedrun.SaveCustomStep(raid, step, timer)
-  if (tonumber(timer) or timer == "") and RabbusSpeedrun.customTimerSteps[raid][step] then
-    RabbusSpeedrun.customTimerSteps[raid][step] = timer
+function RegularSizedSpeedrun.SaveCustomStep(raid, step, timer)
+  if (tonumber(timer) or timer == "") and RegularSizedSpeedrun.customTimerSteps[raid][step] then
+    RegularSizedSpeedrun.customTimerSteps[raid][step] = timer
 
     if raid == 677 or raid == 1227 then
       cV.customTimerSteps[raid][step] = timer
       if (not cV.individualArenaTimers) then
-        sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[raid][step] = timer
+        sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[raid][step] = timer
       end
 
     else
-      sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[raid][step] = timer
+      sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[raid][step] = timer
     end
 
   else
-    RabbusSpeedrun:dbg(0, "Error in saving custom timer for: <<1>> <<2>> step <<3>>", RabbusSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(raid), step)
+    RegularSizedSpeedrun:dbg(0, "Error in saving custom timer for: <<1>> <<2>> step <<3>>", RegularSizedSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(raid), step)
   end
 end
 
-function RabbusSpeedrun.GetSavedTimerStep(raid, step)
+function RegularSizedSpeedrun.GetSavedTimerStep(raid, step)
   local timer = nil
   if (cV.individualArenaTimers and (raid == 677 or raid == 1227)) then
     if cV.arenaList[raid].timerSteps[step] ~= nil
     then timer = cV.arenaList[raid].timerSteps[step] end
   else
-    if sV.profiles[RabbusSpeedrun.activeProfile].raidList[raid].timerSteps[step] ~= nil
-    then timer = sV.profiles[RabbusSpeedrun.activeProfile].raidList[raid].timerSteps[step] end
+    if sV.profiles[RegularSizedSpeedrun.activeProfile].raidList[raid].timerSteps[step] ~= nil
+    then timer = sV.profiles[RegularSizedSpeedrun.activeProfile].raidList[raid].timerSteps[step] end
   end
   if timer ~= nil then return timer end
 end
 
-function RabbusSpeedrun.GetCustomTimerStep(raid, step)
+function RegularSizedSpeedrun.GetCustomTimerStep(raid, step)
   local timer = ""
   if cV.individualArenaTimers and (raid == 677 or raid == 1227)
   then timer = cV.customTimerSteps[raid][step]
-  else timer = sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[raid][step] end
+  else timer = sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[raid][step] end
   return timer
 end
 
-function RabbusSpeedrun.GetCustomTimerStepsTrial(raid, profile)
+function RegularSizedSpeedrun.GetCustomTimerStepsTrial(raid, profile)
   local steps = {}
-  local list  = RabbusSpeedrun.Data.customTimerSteps[raid]
+  local list  = RegularSizedSpeedrun.Data.customTimerSteps[raid]
 
-  for i = 1, #list do steps[i] = RabbusSpeedrun.GetCustomTimerStep(raid, i) end
+  for i = 1, #list do steps[i] = RegularSizedSpeedrun.GetCustomTimerStep(raid, i) end
 
   -- if ((raid == 677 or raid == 1227) and cV.individualArenaTimers) then
   --   for i, x in pairs(cV.customTimerSteps[raid]) do
@@ -806,19 +827,19 @@ end
 --------------------
 --- Default Data ---
 --------------------
-function RabbusSpeedrun.GetDefaultProfile()
+function RegularSizedSpeedrun.GetDefaultProfile()
   local profile = {
     raidList          = {},
     customTimerSteps  = {},
     addsOnCR          = true,
     hmOnSS            = 4,
   }
-  profile.raidList          = RabbusSpeedrun.GetDefaultRaidList()
-  profile.customTimerSteps  = RabbusSpeedrun.GetDefaultCustomTimerSteps()
+  profile.raidList          = RegularSizedSpeedrun.GetDefaultRaidList()
+  profile.customTimerSteps  = RegularSizedSpeedrun.GetDefaultCustomTimerSteps()
   return profile
 end
 
-function RabbusSpeedrun.GetDefaultArenaList()
+function RegularSizedSpeedrun.GetDefaultArenaList()
   local t = {}
   for k, v in pairs(defaultArenaList) do
     if defaultArenaList[k] then t[k] = defaultArenaList[k] end
@@ -826,7 +847,7 @@ function RabbusSpeedrun.GetDefaultArenaList()
   return t
 end
 
-function RabbusSpeedrun.GetDefaultArenaCustomSteps()
+function RegularSizedSpeedrun.GetDefaultArenaCustomSteps()
   local c = {}
   for k, v in pairs(defaultArenaCustomTimerSteps) do
     if defaultArenaCustomTimerSteps[k] then c[k] = defaultArenaCustomTimerSteps[k] end
@@ -834,7 +855,7 @@ function RabbusSpeedrun.GetDefaultArenaCustomSteps()
   return c
 end
 
-function RabbusSpeedrun.GetDefaultScores()
+function RegularSizedSpeedrun.GetDefaultScores()
   local scores = {}
   for k, v in pairs(defaultScores) do
     if defaultScores[k] then scores[k] = defaultScores[k] end
@@ -842,7 +863,7 @@ function RabbusSpeedrun.GetDefaultScores()
   return scores
 end
 
-function RabbusSpeedrun.GetDefaultScoreFactors()
+function RegularSizedSpeedrun.GetDefaultScoreFactors()
   local factors = {}
   for k, v in pairs(defaultScoreFactors) do
     if defaultScoreFactors[k] then factors[k] = defaultScoreFactors[k] end
@@ -850,7 +871,7 @@ function RabbusSpeedrun.GetDefaultScoreFactors()
   return factors
 end
 
-function RabbusSpeedrun.GetDefaultRaidList()
+function RegularSizedSpeedrun.GetDefaultRaidList()
   local drl = {}
   for k, v in pairs(defaultRaidList) do
     if defaultRaidList[k] then drl[k] = defaultRaidList[k] end
@@ -858,7 +879,7 @@ function RabbusSpeedrun.GetDefaultRaidList()
   return drl
 end
 
-function RabbusSpeedrun.GetDefaultCustomTimerSteps()
+function RegularSizedSpeedrun.GetDefaultCustomTimerSteps()
   local steps = {}
   for k, v in pairs(defaultCustomTimerSteps) do
     if defaultCustomTimerSteps[k] then steps[k] = defaultCustomTimerSteps[k] end
@@ -866,9 +887,9 @@ function RabbusSpeedrun.GetDefaultCustomTimerSteps()
   return steps
 end
 
-function RabbusSpeedrun.GetDefaultTrial(id)
+function RegularSizedSpeedrun.GetDefaultTrial(id)
   if not defaultRaidList[id] then
-    RabbusSpeedrun:dbg(0, "Failed to add individual timers for:\nProfile <<1>>\nArena [<<2>>]\nCharacter [<<3>>]", RabbusSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(id), GetUnitName("player"))
+    RegularSizedSpeedrun:dbg(0, "Failed to add individual timers for:\nProfile <<1>>\nArena [<<2>>]\nCharacter [<<3>>]", RegularSizedSpeedrun.GetActiveProfileDisplay(), GetZoneNameById(id), GetUnitName("player"))
     return
   end
 
@@ -879,7 +900,7 @@ function RabbusSpeedrun.GetDefaultTrial(id)
   return a
 end
 
-function RabbusSpeedrun.GetDefaultCustomTimerStepsTrial(id)
+function RegularSizedSpeedrun.GetDefaultCustomTimerStepsTrial(id)
   local cts = {}
   for k, v in pairs(defaultCustomTimerSteps[id]) do
     if defaultCustomTimerSteps[id][k] then cts[k] = defaultCustomTimerSteps[id][k] end
@@ -887,52 +908,52 @@ function RabbusSpeedrun.GetDefaultCustomTimerStepsTrial(id)
   return cts
 end
 
-function RabbusSpeedrun.TrialCheck(id)
-  if RabbusSpeedrun.raidList[id].timerSteps == nil or RabbusSpeedrun.raidList[id].timerSteps == {} then
+function RegularSizedSpeedrun.TrialCheck(id)
+  if RegularSizedSpeedrun.raidList[id].timerSteps == nil or RegularSizedSpeedrun.raidList[id].timerSteps == {} then
     if id == 677 or id == 1227 then
       if cV.individualArenaTimers then
-        RabbusSpeedrun.raidList[id] = cV.arenaList[id]
+        RegularSizedSpeedrun.raidList[id] = cV.arenaList[id]
       else
-        RabbusSpeedrun.raidList[id]	= sV.profiles[RabbusSpeedrun.activeProfile].raidList[id]
+        RegularSizedSpeedrun.raidList[id]	= sV.profiles[RegularSizedSpeedrun.activeProfile].raidList[id]
       end
     else
-      RabbusSpeedrun.raidList[id]	= sV.profiles[RabbusSpeedrun.activeProfile].raidList[id]
+      RegularSizedSpeedrun.raidList[id]	= sV.profiles[RegularSizedSpeedrun.activeProfile].raidList[id]
     end
   end
 
-  if RabbusSpeedrun.customTimerSteps[id] == nil or RabbusSpeedrun.customTimerSteps[id] == {} then
+  if RegularSizedSpeedrun.customTimerSteps[id] == nil or RegularSizedSpeedrun.customTimerSteps[id] == {} then
     if id == 677 or id == 1227 then
       if cV.individualArenaTimers then
-        RabbusSpeedrun.customTimerSteps[id] = cV.soloSteps[id]
+        RegularSizedSpeedrun.customTimerSteps[id] = cV.soloSteps[id]
       else
-        RabbusSpeedrun.customTimerSteps[id] = sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id]
+        RegularSizedSpeedrun.customTimerSteps[id] = sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id]
       end
     else
-      if sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id] then
-        RabbusSpeedrun.customTimerSteps[id] = sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id]
-      elseif sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id] == nil then
-        sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id] = RabbusSpeedrun.GetDefaultCustomTimerStepsTrial(id)
-        RabbusSpeedrun.customTimerSteps[id] = sV.profiles[RabbusSpeedrun.activeProfile].customTimerSteps[id]
+      if sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id] then
+        RegularSizedSpeedrun.customTimerSteps[id] = sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id]
+      elseif sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id] == nil then
+        sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id] = RegularSizedSpeedrun.GetDefaultCustomTimerStepsTrial(id)
+        RegularSizedSpeedrun.customTimerSteps[id] = sV.profiles[RegularSizedSpeedrun.activeProfile].customTimerSteps[id]
       end
     end
   end
 end
 
-function RabbusSpeedrun.ImportVariables()
-  local profile = RabbusSpeedrun.profileToImportTo
+function RegularSizedSpeedrun.ImportVariables()
+  local profile = RegularSizedSpeedrun.profileToImportTo
   if (profile == "" or profile == nil) then return end
 
   if profile == "Default" then
     if (sV.profileVersion < 1 and sV.raidList == nil and sV.customTimerSteps == nil) then
-      sV.profiles[RabbusSpeedrun.profileToImportTo] = RabbusSpeedrun.GetDefaultProfile() return
+      sV.profiles[RegularSizedSpeedrun.profileToImportTo] = RegularSizedSpeedrun.GetDefaultProfile() return
     end
   else
     if (sV.raidList == nil and sV.customTimerSteps == nil) then
-      RabbusSpeedrun:dbg(0, "No data from old list found! Import aborted.") return
+      RegularSizedSpeedrun:dbg(0, "No data from old list found! Import aborted.") return
     end
   end
 
-  local savedData             = RabbusSpeedrun.GetDefaultProfile()
+  local savedData             = RegularSizedSpeedrun.GetDefaultProfile()
   local raidListData          = sV.raidList ~= nil and true or false
   local customTimerStepsData  = sV.customTimerSteps ~= nil and true or false
   local addsOnCRData          = sV.addsOnCR ~= nil and true or false
@@ -959,7 +980,7 @@ function RabbusSpeedrun.ImportVariables()
       end
     end
   else
-    savedData.raidList = RabbusSpeedrun.GetDefaultRaidList()
+    savedData.raidList = RegularSizedSpeedrun.GetDefaultRaidList()
   end
 
   if customTimerStepsData == true then
@@ -979,23 +1000,23 @@ function RabbusSpeedrun.ImportVariables()
       end
     end
   else
-    savedData.customTimerSteps = RabbusSpeedrun.GetDefaultCustomTimerSteps()
+    savedData.customTimerSteps = RegularSizedSpeedrun.GetDefaultCustomTimerSteps()
   end
 
   if addsOnCRData == true then savedData.addsOnCR = sV.addsOnCR end
   if hmOnSSData   == true then savedData.hmOnSS   = sV.hmOnSS end
 
-  sV.profiles[RabbusSpeedrun.profileToImportTo].raidList          = savedData.raidList
-  sV.profiles[RabbusSpeedrun.profileToImportTo].customTimerSteps  = savedData.customTimerSteps
-  sV.profiles[RabbusSpeedrun.profileToImportTo].addsOnCR          = savedData.addsOnCR
-  sV.profiles[RabbusSpeedrun.profileToImportTo].hmOnSS            = savedData.hmOnSS
+  sV.profiles[RegularSizedSpeedrun.profileToImportTo].raidList          = savedData.raidList
+  sV.profiles[RegularSizedSpeedrun.profileToImportTo].customTimerSteps  = savedData.customTimerSteps
+  sV.profiles[RegularSizedSpeedrun.profileToImportTo].addsOnCR          = savedData.addsOnCR
+  sV.profiles[RegularSizedSpeedrun.profileToImportTo].hmOnSS            = savedData.hmOnSS
 
   sV.customTimerSteps         = nil
   sV.addsOnCR                 = nil
   sV.hmOnSS                   = nil
   sV.debugMode                = nil
   sV.isTracking               = nil
-  RabbusSpeedrun.profileToImportTo  = ""
+  RegularSizedSpeedrun.profileToImportTo  = ""
   sV.profileVersion           = 1
 end
 
@@ -1029,12 +1050,12 @@ local function CheckCharacterVars(key)
   vars = {}
 end
 
-function RabbusSpeedrun.RefreshCharacterVariables()
+function RegularSizedSpeedrun.RefreshCharacterVariables()
   CheckCharacterVars(cV)
 end
 
 local function CheckProfileData(profile, raidID)
-  local d = RabbusSpeedrun.Data.raidList[raidID]
+  local d = RegularSizedSpeedrun.Data.raidList[raidID]
   local trial = sV.profiles[profile].raidList[raidID]
   if not trial.name then trial.name = d.name end
   if not trial.id then trial.id = d.id end
@@ -1042,26 +1063,26 @@ local function CheckProfileData(profile, raidID)
   if not trial.scoreFactors then trial.scoreFactors = d.scoreFactors end
 end
 
-function RabbusSpeedrun.ValidateProfile(profile)
-  for i, x in pairs(RabbusSpeedrun.Data.raidList) do
-    local trial = RabbusSpeedrun.Data.raidList[i]
+function RegularSizedSpeedrun.ValidateProfile(profile)
+  for i, x in pairs(RegularSizedSpeedrun.Data.raidList) do
+    local trial = RegularSizedSpeedrun.Data.raidList[i]
     if trial then
-      if sV.profiles[profile].raidList[i] == nil then sV.profiles[profile].raidList[i] = RabbusSpeedrun.GetDefaultTrial(i)
+      if sV.profiles[profile].raidList[i] == nil then sV.profiles[profile].raidList[i] = RegularSizedSpeedrun.GetDefaultTrial(i)
       elseif sV.profiles[profile].raidList[i] then CheckProfileData(profile, i) end
     end
   end
-  for i, x in pairs(RabbusSpeedrun.Data.customTimerSteps) do
+  for i, x in pairs(RegularSizedSpeedrun.Data.customTimerSteps) do
     if sV.profiles[profile].customTimerSteps[i] == nil or sV.profiles[profile].customTimerSteps[i] == {} then
-      sV.profiles[profile].customTimerSteps[i] = RabbusSpeedrun.GetDefaultCustomTimerStepsTrial(i)
+      sV.profiles[profile].customTimerSteps[i] = RegularSizedSpeedrun.GetDefaultCustomTimerStepsTrial(i)
     end
   end
 end
 
-function RabbusSpeedrun.UpdateSettings(sv, cv)
+function RegularSizedSpeedrun.UpdateSettings(sv, cv)
   if sv <= 0 then
-    RabbusSpeedrun.profileToImportTo = "Default"
+    RegularSizedSpeedrun.profileToImportTo = "Default"
     -- add previous data if any exists
-    RabbusSpeedrun.ImportVariables()
+    RegularSizedSpeedrun.ImportVariables()
     sV.profileVersion = 1
   end
 
@@ -1159,12 +1180,12 @@ function RabbusSpeedrun.UpdateSettings(sv, cv)
     cV.customTimerSteps[1227] 		= soloCustomList.VH
     cV.charVersion 								= 1
     sV.profileVersion 						= 3
-    RabbusSpeedrun.RefreshCharacterVariables()
+    RegularSizedSpeedrun.RefreshCharacterVariables()
   end
 
   if sV.speedrun_container_offsetX then
-    if ((sV.speedrun_panel_offsetX == RabbusSpeedrun.Default_Account.speedrun_panel_offsetX) and (sV.speedrun_panel_offsetY == RabbusSpeedrun.Default_Account.speedrun_panel_offsetY)) then
-      if ((sV.speedrun_container_offsetX ~= RabbusSpeedrun.Default_Account.speedrun_container_offsetX) and (sV.speedrun_container_offsetY ~= RabbusSpeedrun.Default_Account.speedrun_container_offsetY)) then
+    if ((sV.speedrun_panel_offsetX == RegularSizedSpeedrun.Default_Account.speedrun_panel_offsetX) and (sV.speedrun_panel_offsetY == RegularSizedSpeedrun.Default_Account.speedrun_panel_offsetY)) then
+      if ((sV.speedrun_container_offsetX ~= RegularSizedSpeedrun.Default_Account.speedrun_container_offsetX) and (sV.speedrun_container_offsetY ~= RegularSizedSpeedrun.Default_Account.speedrun_container_offsetY)) then
         sV.speedrun_panel_offsetX = sV.speedrun_container_offsetX
         sV.speedrun_panel_offsetY = sV.speedrun_container_offsetY
       end
@@ -1172,7 +1193,7 @@ function RabbusSpeedrun.UpdateSettings(sv, cv)
   end
 end
 
-function RabbusSpeedrun.StressTestedCheck()
+function RegularSizedSpeedrun.StressTestedCheck()
   local st = false
 
   for i = 1, 5 do
@@ -1183,10 +1204,10 @@ function RabbusSpeedrun.StressTestedCheck()
   end
 
   if st == true then
-    if RabbusSpeedrun.Default_Account.valenFinallyGotGH == nil then
-      RabbusSpeedrun.Default_Account.valenFinallyGotGH = false
+    if RegularSizedSpeedrun.Default_Account.valenFinallyGotGH == nil then
+      RegularSizedSpeedrun.Default_Account.valenFinallyGotGH = false
     end
-    RabbusSpeedrun.StressTestedConfirmed()
+    RegularSizedSpeedrun.StressTestedConfirmed()
   end
   return st
 end

@@ -1,16 +1,16 @@
-RabbusSpeedrun                  = RabbusSpeedrun or {}
-local RabbusSpeedrun            = RabbusSpeedrun
+RegularSizedSpeedrun                  = RegularSizedSpeedrun or {}
+local RegularSizedSpeedrun            = RegularSizedSpeedrun
 local sV
 local cV
-RabbusSpeedrun.slash            = "/speed" or "/SPEED"
-RabbusSpeedrun.prefix           = "|cffffffRegularSizedSpeed|r|cdf4242Run|r: "
-RabbusSpeedrun.trialDifficulty  = 1
-RabbusSpeedrun.groupIsHidden    = false
-RabbusSpeedrun.npChanged        = false
-RabbusSpeedrun.hbChanged        = false
-RabbusSpeedrun.npHlChanged      = false
-RabbusSpeedrun.hbHlChanged      = false
-RabbusSpeedrun.isLocalChange    = false
+RegularSizedSpeedrun.slash            = "/speed" or "/SPEED"
+RegularSizedSpeedrun.prefix           = "|cffffffRegularSized|r|cdf4242SpeedRun|r: "
+RegularSizedSpeedrun.trialDifficulty  = 1
+RegularSizedSpeedrun.groupIsHidden    = false
+RegularSizedSpeedrun.npChanged        = false
+RegularSizedSpeedrun.hbChanged        = false
+RegularSizedSpeedrun.npHlChanged      = false
+RegularSizedSpeedrun.hbHlChanged      = false
+RegularSizedSpeedrun.isLocalChange    = false
 local LS                  = LoadingScreen_Base
 local EM                  = EVENT_MANAGER
 local SM                  = SCENE_MANAGER
@@ -80,56 +80,56 @@ local function OnSubzoneChanged()
   if z ~= "" and z ~= subzone then
     subzone = z
     zo_callLater(function()
-      RabbusSpeedrun:dbg(2, "Subzone Changed to: <<1>>", subzone)
+      RegularSizedSpeedrun:dbg(2, "Subzone Changed to: <<1>>", subzone)
     end, 200)
   end
 end
 
-function RabbusSpeedrun.SlashCommand(string)
+function RegularSizedSpeedrun.SlashCommand(string)
   local command = string.lower(string)
   -- Debug Options ----------------------------------------------------------
   if command == "track 0" then
-    d(RabbusSpeedrun.prefix .. "Tracking: Off")
+    d(RegularSizedSpeedrun.prefix .. "Tracking: Off")
     cV.debugMode = 0
 
   elseif command == "track 1" then
-    d(RabbusSpeedrun.prefix .. "Tracking: low (only checkpoints)")
+    d(RegularSizedSpeedrun.prefix .. "Tracking: low (only checkpoints)")
     cV.debugMode = 1
 
   elseif command == "track 2" then
-    d(RabbusSpeedrun.prefix .. "Tracking: medium (checkpoints and some function updates)")
+    d(RegularSizedSpeedrun.prefix .. "Tracking: medium (checkpoints and some function updates)")
     cV.debugMode = 2
 
   elseif command == "track 3" then
-    d(RabbusSpeedrun.prefix .. "Tracking: high (everything. can be a lot of spam.)")
+    d(RegularSizedSpeedrun.prefix .. "Tracking: high (everything. can be a lot of spam.)")
     cV.debugMode = 3
 
   elseif command == "time" then
-    d(RabbusSpeedrun.prefix .. "Game time - start = <<1>>. Duration = <<2>>.", GetGameTimeSeconds() - RabbusSpeedrun.timeStarted, GetRaidDuration() / 1000)
+    d(RegularSizedSpeedrun.prefix .. "Game time - start = <<1>>. Duration = <<2>>.", GetGameTimeSeconds() - RegularSizedSpeedrun.timeStarted, GetRaidDuration() / 1000)
 
   -- UI Options -------------------------------------------------------------
   elseif command == "move" or command == "lock" then
-    RabbusSpeedrun.ToggleUILocked()
+    RegularSizedSpeedrun.ToggleUILocked()
 
   elseif command == "hideui" then
-    RabbusSpeedrun.SetUIHidden(true)
+    RegularSizedSpeedrun.SetUIHidden(true)
 
   elseif command == "showui" then
-    RabbusSpeedrun.SetUIHidden(false)
+    RegularSizedSpeedrun.SetUIHidden(false)
 
   elseif command == "ui" then
-    RabbusSpeedrun.ToggleUIVisibility()
+    RegularSizedSpeedrun.ToggleUIVisibility()
 
     -- Hide Group -------------------------------------------------------------
   elseif command == "hg" or command == "hidegroup" then
-    RabbusSpeedrun.HideGroupToggle()
+    RegularSizedSpeedrun.HideGroupToggle()
 
   -- Adds -------------------------------------------------------------------
   elseif command == "score" then
-    RabbusSpeedrun.PrintScoreReasons()
+    RegularSizedSpeedrun.PrintScoreReasons()
 
   elseif command == "lastscore" then
-    RabbusSpeedrun.PrintLastScoreReasons()
+    RegularSizedSpeedrun.PrintLastScoreReasons()
 
   -- Travel -----------------------------------------------------------------
   elseif command == "home" then
@@ -143,80 +143,80 @@ function RabbusSpeedrun.SlashCommand(string)
 
   -- Default ----------------------------------------------------------------
   else
-    d(RabbusSpeedrun.prefix .. " Command not recognized!\n[ |cffffff/speed|r (|cffffffcommand|r) ] options are:\n[ |cffffffshow|r or |cffffffhide|r ]: To toggle UI.\n[ |cffffffmove|r or |cfffffflock|r ]: Both will toggle the UI's current lock state.\n[ |cfffffftrack (|cffffff0|r - |cffffff3|r) ]: Chat notification.\n(|cffffff0|r): Only settings change confirmations.\n(|cffffff1|r): Trial checkpoint updates.\n(|cffffff2|r): Checkpoint and internal function updates.\n(|cffffff3|r): Everything the addon is set to register (|cff0000Spam Warning|r).\n[ |cffffffhg|r ] or [ |cffffffhidegroup|r ]: Toggle function on/off.\n[ |cffffffscore|r ]: List current trial score variables in chat.\n[ |cfffffflastscore|r ]: List previous trial score variables in chat (only stores 1 trial, and only if completed).")
+    d(RegularSizedSpeedrun.prefix .. " Command not recognized!\n[ |cffffff/speed|r (|cffffffcommand|r) ] options are:\n[ |cffffffshow|r or |cffffffhide|r ]: To toggle UI.\n[ |cffffffmove|r or |cfffffflock|r ]: Both will toggle the UI's current lock state.\n[ |cfffffftrack (|cffffff0|r - |cffffff3|r) ]: Chat notification.\n(|cffffff0|r): Only settings change confirmations.\n(|cffffff1|r): Trial checkpoint updates.\n(|cffffff2|r): Checkpoint and internal function updates.\n(|cffffff3|r): Everything the addon is set to register (|cff0000Spam Warning|r).\n[ |cffffffhg|r ] or [ |cffffffhidegroup|r ]: Toggle function on/off.\n[ |cffffffscore|r ]: List current trial score variables in chat.\n[ |cfffffflastscore|r ]: List previous trial score variables in chat (only stores 1 trial, and only if completed).")
   end
 end
 
-function RabbusSpeedrun.LoadUtils()
-  sV = RabbusSpeedrun.savedVariables
-  cV = RabbusSpeedrun.savedSettings
+function RegularSizedSpeedrun.LoadUtils()
+  sV = RegularSizedSpeedrun.savedVariables
+  cV = RegularSizedSpeedrun.savedSettings
 
-  RabbusSpeedrun.trialDifficulty = ZO_GetEffectiveDungeonDifficulty()
+  RegularSizedSpeedrun.trialDifficulty = ZO_GetEffectiveDungeonDifficulty()
 
-  SLASH_COMMANDS[RabbusSpeedrun.slash] = RabbusSpeedrun.SlashCommand
+  SLASH_COMMANDS[RegularSizedSpeedrun.slash] = RegularSizedSpeedrun.SlashCommand
 
   if WritCreater then WritCreater.hidePets = function() return end end
 
-  RabbusSpeedrun.ConfigureNameplates()
-  RabbusSpeedrun.ConfigureHideGroup()
-  RabbusSpeedrun.UpdateNecroMode()
-  RabbusSpeedrun.ConfigureCombatInteractBlocker()
-  RabbusSpeedrun.RegisterDifficultyChange()
+  RegularSizedSpeedrun.ConfigureNameplates()
+  RegularSizedSpeedrun.ConfigureHideGroup()
+  RegularSizedSpeedrun.UpdateNecroMode()
+  RegularSizedSpeedrun.ConfigureCombatInteractBlocker()
+  RegularSizedSpeedrun.RegisterDifficultyChange()
 
   -- if GetDisplayName() == "@nogetrandom" then
-    -- EM:RegisterForEvent(RabbusSpeedrun.name .. "Subzone",  EVENT_CURRENT_SUBZONE_LIST_CHANGED, OnSubzoneChanged)
+    -- EM:RegisterForEvent(RegularSizedSpeedrun.name .. "Subzone",  EVENT_CURRENT_SUBZONE_LIST_CHANGED, OnSubzoneChanged)
   -- end
 end
 
-function RabbusSpeedrun:dbg( debugLevel, ... )
-  if debugLevel <= RabbusSpeedrun.savedSettings.debugMode then
+function RegularSizedSpeedrun:dbg( debugLevel, ... )
+  if debugLevel <= RegularSizedSpeedrun.savedSettings.debugMode then
     local message = zo_strformat( ...)
-    d( RabbusSpeedrun.prefix .. message )
+    d( RegularSizedSpeedrun.prefix .. message )
   end
 end
 
-function RabbusSpeedrun:post( ... )
+function RegularSizedSpeedrun:post( ... )
   local message = zo_strformat( ... )
   d( message )
 end
 
 local lastUpdate = ""
-function RabbusSpeedrun.GetDifficulty(string)
+function RegularSizedSpeedrun.GetDifficulty(string)
   local diff
-  local isVet = RabbusSpeedrun.ResolveTrialDiffculty()
+  local isVet = RegularSizedSpeedrun.ResolveTrialDiffculty()
   if string == true then diff = isVet == true and "Veteran" or "Normal"
   else diff = isVet == true and 2 or 1 end
   return diff
 end
 
-function RabbusSpeedrun.UpdateDifficulty(difficulty)
-  RabbusSpeedrun.UpdateDifficultySwitch()
+function RegularSizedSpeedrun.UpdateDifficulty(difficulty)
+  RegularSizedSpeedrun.UpdateDifficultySwitch()
 
   local changed = false
 
-  if difficulty ~= nil and difficulty ~= RabbusSpeedrun.trialDifficulty then
+  if difficulty ~= nil and difficulty ~= RegularSizedSpeedrun.trialDifficulty then
     changed = true
-    RabbusSpeedrun.trialDifficulty = difficulty
+    RegularSizedSpeedrun.trialDifficulty = difficulty
     changes = 0
   end
 
   if changed then
-    local d = RabbusSpeedrun.GetDifficulty(true)
+    local d = RegularSizedSpeedrun.GetDifficulty(true)
     lastUpdate = d
-    if sV.printDiffChange == true then RabbusSpeedrun:dbg(0, "Difficulty changed to: |cffffff<<1>>|r.", d) end
+    if sV.printDiffChange == true then RegularSizedSpeedrun:dbg(0, "Difficulty changed to: |cffffff<<1>>|r.", d) end
   end
 end
 
-function RabbusSpeedrun.RegisterDifficultyChange()
+function RegularSizedSpeedrun.RegisterDifficultyChange()
 
   local function OnGroupJoined(eventCode, characterName, displayName, isPlayer)
     if not isPlayer then return end
-    RabbusSpeedrun.UpdateDifficulty(RabbusSpeedrun.GetDifficulty(false))
+    RegularSizedSpeedrun.UpdateDifficulty(RegularSizedSpeedrun.GetDifficulty(false))
   end
 
   local function OnGroupLeft(eventCode, characterName, reason, isPlayer, isLeader, displayName, requiredVote)
     if not isPlayer then return end
-    RabbusSpeedrun.UpdateDifficulty(RabbusSpeedrun.GetDifficulty(false))
+    RegularSizedSpeedrun.UpdateDifficulty(RegularSizedSpeedrun.GetDifficulty(false))
   end
 
   local function OnVeteranDifficultyChanged(eventCode, unitTag, isDifficult)
@@ -233,16 +233,16 @@ function RabbusSpeedrun.RegisterDifficultyChange()
     end
 
     local diff = isDifficult and 2 or 1
-    -- if diff ~= RabbusSpeedrun.trialDifficulty then
-      RabbusSpeedrun.UpdateDifficulty(diff)
+    -- if diff ~= RegularSizedSpeedrun.trialDifficulty then
+      RegularSizedSpeedrun.UpdateDifficulty(diff)
     -- end
 
-    -- RabbusSpeedrun:dbg(2, "Changed by |cffffff<<1>>|r(|cffffff<<3>>|r) to |cffffff<<2>>|r.", GetUnitDisplayName(unitTag), isDifficult and "Veteran" or "Normal", unitTag)
+    -- RegularSizedSpeedrun:dbg(2, "Changed by |cffffff<<1>>|r(|cffffff<<3>>|r) to |cffffff<<2>>|r.", GetUnitDisplayName(unitTag), isDifficult and "Veteran" or "Normal", unitTag)
   end
 
   local function OnGroupVeteranDifficultyChanged(_, isVeteranDifficulty)
 
-    RabbusSpeedrun.UpdateDifficulty(isVeteranDifficulty)
+    RegularSizedSpeedrun.UpdateDifficulty(isVeteranDifficulty)
 
     if deactivated then
       if isVeteranDifficulty then
@@ -252,7 +252,7 @@ function RabbusSpeedrun.RegisterDifficultyChange()
       end
       changes = changes + 1
     end
-    -- RabbusSpeedrun:dbg(2, "Changed to |cffffff<<1>>|r.", isVeteranDifficulty and "Veteran" or "Normal")
+    -- RegularSizedSpeedrun:dbg(2, "Changed to |cffffff<<1>>|r.", isVeteranDifficulty and "Veteran" or "Normal")
   end
 
   local function OnDeactivated()
@@ -260,56 +260,56 @@ function RabbusSpeedrun.RegisterDifficultyChange()
     loadingStart = GetGameTimeMilliseconds()
   end
 
-  EM:RegisterForEvent(RabbusSpeedrun.name .. "Deactivated", EVENT_PLAYER_DEACTIVATED, OnDeactivated)
+  EM:RegisterForEvent(RegularSizedSpeedrun.name .. "Deactivated", EVENT_PLAYER_DEACTIVATED, OnDeactivated)
 
-  EM:RegisterForEvent( RabbusSpeedrun.name .. "IsVet1",      EVENT_VETERAN_DIFFICULTY_CHANGED, OnVeteranDifficultyChanged)
-  EM:RegisterForEvent( RabbusSpeedrun.name .. "IsVet2",      EVENT_GROUP_VETERAN_DIFFICULTY_CHANGED, OnGroupVeteranDifficultyChanged)
-  EM:RegisterForEvent( RabbusSpeedrun.name .. "JoinedGroup", EVENT_GROUP_MEMBER_JOINED, OnGroupJoined)
-  EM:AddFilterForEvent(RabbusSpeedrun.name .. "JoinedGroup", EVENT_GROUP_MEMBER_JOINED, REGISTER_FILTER_UNIT_TAG, "player")
-  EM:RegisterForEvent( RabbusSpeedrun.name .. "LeftGroup",   EVENT_GROUP_MEMBER_LEFT, OnGroupLeft)
-  EM:AddFilterForEvent(RabbusSpeedrun.name .. "LeftGroup",   EVENT_GROUP_MEMBER_LEFT, REGISTER_FILTER_UNIT_TAG, "player")
+  EM:RegisterForEvent( RegularSizedSpeedrun.name .. "IsVet1",      EVENT_VETERAN_DIFFICULTY_CHANGED, OnVeteranDifficultyChanged)
+  EM:RegisterForEvent( RegularSizedSpeedrun.name .. "IsVet2",      EVENT_GROUP_VETERAN_DIFFICULTY_CHANGED, OnGroupVeteranDifficultyChanged)
+  EM:RegisterForEvent( RegularSizedSpeedrun.name .. "JoinedGroup", EVENT_GROUP_MEMBER_JOINED, OnGroupJoined)
+  EM:AddFilterForEvent(RegularSizedSpeedrun.name .. "JoinedGroup", EVENT_GROUP_MEMBER_JOINED, REGISTER_FILTER_UNIT_TAG, "player")
+  EM:RegisterForEvent( RegularSizedSpeedrun.name .. "LeftGroup",   EVENT_GROUP_MEMBER_LEFT, OnGroupLeft)
+  EM:AddFilterForEvent(RegularSizedSpeedrun.name .. "LeftGroup",   EVENT_GROUP_MEMBER_LEFT, REGISTER_FILTER_UNIT_TAG, "player")
 end
 
 -- SetVeteranDifficulty(boolean isVeteranDifficulty)
 
 local function ShouldHideGroup()
   if not cV.groupHidden then return false end
-  if (not RabbusSpeedrun.IsInTrialZone() and sV.hgTrialOnly) then return false end
+  if (not RegularSizedSpeedrun.IsInTrialZone() and sV.hgTrialOnly) then return false end
   -- if cV.hgNecro then return wasDeativated == true and wasDeactiveted or (not IsUnitInCombat("player")) end
   return true
 end
 
-function RabbusSpeedrun.IsActivated( _, initial )
+function RegularSizedSpeedrun.IsActivated( _, initial )
 
   if initial then
     zo_callLater(function()
-      RabbusSpeedrun.trialDifficulty = RabbusSpeedrun.GetDifficulty(false)
+      RegularSizedSpeedrun.trialDifficulty = RegularSizedSpeedrun.GetDifficulty(false)
     end, 1000)
   end
 
-  RabbusSpeedrun.ChaosIsABellend()
-  RabbusSpeedrun.groupIsHidden  = false
+  RegularSizedSpeedrun.ChaosIsABellend()
+  RegularSizedSpeedrun.groupIsHidden  = false
   shouldChange            = true
-  RabbusSpeedrun.ConfigureHideGroup()
+  RegularSizedSpeedrun.ConfigureHideGroup()
 
   zo_callLater(function()
-    RabbusSpeedrun.UpdateDifficultySwitch()
+    RegularSizedSpeedrun.UpdateDifficultySwitch()
   end, 1000)
 
   if deactivated then
     deactivated = false
-    -- RabbusSpeedrun:dbg(2, "Was Deactivated")
+    -- RegularSizedSpeedrun:dbg(2, "Was Deactivated")
 
     loadingEnd = GetGameTimeMilliseconds()
     local time = string.format("%.2f",(loadingEnd - loadingStart) / 1000)
-    RabbusSpeedrun:dbg(2, "Load Time: <<1>> sec.", time)
+    RegularSizedSpeedrun:dbg(2, "Load Time: <<1>> sec.", time)
     if changes == 0 then
-      RabbusSpeedrun:dbg(2, "No changes.")
+      RegularSizedSpeedrun:dbg(2, "No changes.")
     else
       if sV.printDiffChange == true then
-        RabbusSpeedrun:dbg(0, "Instances have been reset. Difficulty is currently set to: |cffffff<<1>>|r.", RabbusSpeedrun.GetDifficulty(true))
+        RegularSizedSpeedrun:dbg(0, "Instances have been reset. Difficulty is currently set to: |cffffff<<1>>|r.", RegularSizedSpeedrun.GetDifficulty(true))
       end
-      RabbusSpeedrun:dbg(2, "Normal = <<1>>. Vet = <<2>>", normals, vets)
+      RegularSizedSpeedrun:dbg(2, "Normal = <<1>>. Vet = <<2>>", normals, vets)
     end
     normals = 0
     vets    = 0
@@ -318,78 +318,78 @@ function RabbusSpeedrun.IsActivated( _, initial )
 end
 
 local function StoreNameplateSettings()
-  if not RabbusSpeedrun.npChanged then
+  if not RegularSizedSpeedrun.npChanged then
     sV.nameplates = GetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_NAMEPLATES)
   end
 
-  if not RabbusSpeedrun.npHlChanged then
+  if not RegularSizedSpeedrun.npHlChanged then
     sV.nameplatesHL = GetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_NAMEPLATES_HIGHLIGHT)
   end
 
-  if not RabbusSpeedrun.hbChanged then
+  if not RegularSizedSpeedrun.hbChanged then
     sV.healthBars = GetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_HEALTHBARS)
   end
 
-  if not RabbusSpeedrun.hbHlChanged then
+  if not RegularSizedSpeedrun.hbHlChanged then
     sV.healthBarsHL = GetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_HEALTHBARS_HIGHLIGHT)
   end
 end
 
-function RabbusSpeedrun.AlterNameplateSettings()
+function RegularSizedSpeedrun.AlterNameplateSettings()
   if cV.groupHidden and sV.changeNameplates == true then
-    RabbusSpeedrun.ApplyNameplateGroupHiddenChoice()
-    RabbusSpeedrun.ApplyNameplateHighlightGroupHiddenChoice()
-    RabbusSpeedrun.npChanged = true
+    RegularSizedSpeedrun.ApplyNameplateGroupHiddenChoice()
+    RegularSizedSpeedrun.ApplyNameplateHighlightGroupHiddenChoice()
+    RegularSizedSpeedrun.npChanged = true
   end
 end
 
-function RabbusSpeedrun.AlterHealthBarSettings()
+function RegularSizedSpeedrun.AlterHealthBarSettings()
   if cV.groupHidden and sV.changeHealthBars == true then
-    RabbusSpeedrun.ApplyHealthbarGroupHiddenChoice()
-    RabbusSpeedrun.ApplyHealthbarHighlightGroupHiddenChoice()
-    RabbusSpeedrun.hbChanged = true
+    RegularSizedSpeedrun.ApplyHealthbarGroupHiddenChoice()
+    RegularSizedSpeedrun.ApplyHealthbarHighlightGroupHiddenChoice()
+    RegularSizedSpeedrun.hbChanged = true
   end
 end
 
-function RabbusSpeedrun.RestoreNameplateSettings()
+function RegularSizedSpeedrun.RestoreNameplateSettings()
   if cV.groupHidden and sV.changeNameplates then return end
-  if RabbusSpeedrun.npChanged then
-    RabbusSpeedrun.isLocalChange = true
+  if RegularSizedSpeedrun.npChanged then
+    RegularSizedSpeedrun.isLocalChange = true
     SetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_NAMEPLATES, tostring(sV.nameplates))
-    RabbusSpeedrun.npChanged = false
+    RegularSizedSpeedrun.npChanged = false
   end
 
-  if RabbusSpeedrun.npHlChanged then
-    RabbusSpeedrun.isLocalChange = true
+  if RegularSizedSpeedrun.npHlChanged then
+    RegularSizedSpeedrun.isLocalChange = true
     SetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_NAMEPLATES_HIGHLIGHT, tostring(sV.nameplatesHL))
-    RabbusSpeedrun.npHlChanged = false
+    RegularSizedSpeedrun.npHlChanged = false
   end
 end
 
-function RabbusSpeedrun.RestoreHealthBarSettings()
+function RegularSizedSpeedrun.RestoreHealthBarSettings()
   if cV.groupHidden and sV.changeHealthBars then return end
-  if RabbusSpeedrun.hbChanged then
-    RabbusSpeedrun.isLocalChange = true
+  if RegularSizedSpeedrun.hbChanged then
+    RegularSizedSpeedrun.isLocalChange = true
     SetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_HEALTHBARS, tostring(sV.healthBars))
-    RabbusSpeedrun.hbChanged = false
+    RegularSizedSpeedrun.hbChanged = false
   end
 
-  if RabbusSpeedrun.hbHlChanged then
-    RabbusSpeedrun.isLocalChange = true
+  if RegularSizedSpeedrun.hbHlChanged then
+    RegularSizedSpeedrun.isLocalChange = true
     SetSetting(SETTING_TYPE_NAMEPLATES, NAMEPLATE_TYPE_GROUP_MEMBER_HEALTHBARS_HIGHLIGHT, tostring(sV.healthBarsHL))
-    RabbusSpeedrun.hbHlChanged = false
+    RegularSizedSpeedrun.hbHlChanged = false
   end
 end
 
 local function ShowGroup()
   SetCrownCrateNPCVisible(false)
-  RabbusSpeedrun.RestoreNameplateSettings()
-  RabbusSpeedrun.RestoreHealthBarSettings()
-  if RabbusSpeedrun.isLocalChange == true then
-    zo_callLater(function() RabbusSpeedrun.isLocalChange = false end, 500)
+  RegularSizedSpeedrun.RestoreNameplateSettings()
+  RegularSizedSpeedrun.RestoreHealthBarSettings()
+  if RegularSizedSpeedrun.isLocalChange == true then
+    zo_callLater(function() RegularSizedSpeedrun.isLocalChange = false end, 500)
   end
   if not cV.hgNecro then
-    RabbusSpeedrun:dbg(0, "Showing Group Members")
+    RegularSizedSpeedrun:dbg(0, "Showing Group Members")
   end
 end
 
@@ -415,13 +415,13 @@ end
 --   local shouldToggle = false
 --   if (result == ACTION_RESULT_EFFECT_GAINED and not inPortal) then
 --     inPortal = true
---     if not RabbusSpeedrun.groupIsHidden and not changedInPortal then
+--     if not RegularSizedSpeedrun.groupIsHidden and not changedInPortal then
 --       changedInPortal = true
 --       shouldToggle = true
 --     end
 --   elseif (result == ACTION_RESULT_EFFECT_FADED and inPortal) then
 --     inPortal = false
---     if RabbusSpeedrun.groupIsHidden and not changedOutOfPortal then
+--     if RegularSizedSpeedrun.groupIsHidden and not changedOutOfPortal then
 --       changedOutOfPortal = true
 --       shouldToggle = true
 --     end
@@ -429,12 +429,12 @@ end
 --
 --   if shouldToggle then
 --     SetCrownCrateNPCVisible(true)
---     RabbusSpeedrun.groupIsHidden = true
+--     RegularSizedSpeedrun.groupIsHidden = true
 --
 --     zo_callLater(function()
 --       -- Manually show group again once inside.
 --       SetCrownCrateNPCVisible(false)
---       RabbusSpeedrun.groupIsHidden = false
+--       RegularSizedSpeedrun.groupIsHidden = false
 --       if inPortal then
 --         changedOutOfPortal = false
 --       else
@@ -446,20 +446,20 @@ end
 --   --
 --   --   -- Effect of being transported gained. Show cat.
 --   --   -- Don't hide group if they are already hidden.
---   --   if (--[[RabbusSpeedrun.groupIsHidden == false and]] result == ACTION_RESULT_EFFECT_GAINED) then
+--   --   if (--[[RegularSizedSpeedrun.groupIsHidden == false and]] result == ACTION_RESULT_EFFECT_GAINED) then
 --   --
 --   --       -- Show cat when transport effect is gained regardless of enter or exit to keep group members hidden.
 --   --       -- groupHidden will be updated in the function itself to filter duplicate events.
---   --       -- RabbusSpeedrun.HideGroup(true)
+--   --       -- RegularSizedSpeedrun.HideGroup(true)
 --   --       SetCrownCrateNPCVisible(true)
---   --       RabbusSpeedrun.groupIsHidden = true
---   --       RabbusSpeedrun:dbg(2, "In Portal")
+--   --       RegularSizedSpeedrun.groupIsHidden = true
+--   --       RegularSizedSpeedrun:dbg(2, "In Portal")
 --   --
 --   --       zo_callLater(function()
 --   --           -- Manually show group again once inside.
 --   --           SetCrownCrateNPCVisible(false)
---   --           RabbusSpeedrun.groupIsHidden = false
---   --           -- RabbusSpeedrun.HideGroup(false)
+--   --           RegularSizedSpeedrun.groupIsHidden = false
+--   --           -- RegularSizedSpeedrun.HideGroup(false)
 --   --       end, 500)
 --   --
 --   --       -- Id matching one that puts player inside the portal.
@@ -474,29 +474,29 @@ end
 --   --           --     zo_callLater(function()
 --   --           --       -- Manually show group again once inside.
 --   --           --       SetCrownCrateNPCVisible(false)
---   --           --       RabbusSpeedrun.groupIsHidden = false
---   --           --       -- RabbusSpeedrun.HideGroup(false)
+--   --           --       RegularSizedSpeedrun.groupIsHidden = false
+--   --           --       -- RegularSizedSpeedrun.HideGroup(false)
 --   --           --     end, 1000)
 --   --           -- end
 --   --       end
 --   --
 --   --   -- Effect of being transported fades. Hide cat.
---   -- -- elseif (--[[RabbusSpeedrun.groupIsHidden == true and]] result == ACTION_RESULT_EFFECT_FADED) then
+--   -- -- elseif (--[[RegularSizedSpeedrun.groupIsHidden == true and]] result == ACTION_RESULT_EFFECT_FADED) then
 --   --
 --   --     -- SetCrownCrateNPCVisible(true)
---   --     -- RabbusSpeedrun.groupIsHidden = true
---   --     -- RabbusSpeedrun:dbg(2, "Out of Portal")
+--   --     -- RegularSizedSpeedrun.groupIsHidden = true
+--   --     -- RegularSizedSpeedrun:dbg(2, "Out of Portal")
 --   --     --
 --   --     -- zo_callLater(function()
 --   --     --     -- Manually show group again once inside.
 --   --     --     SetCrownCrateNPCVisible(false)
---   --     --     RabbusSpeedrun.groupIsHidden = false
---   --     --     -- RabbusSpeedrun.HideGroup(false)
+--   --     --     RegularSizedSpeedrun.groupIsHidden = false
+--   --     --     -- RegularSizedSpeedrun.HideGroup(false)
 --   --     -- end, 1000)
 --   --
 --   --   --
 --   --   --     -- Transportation complete. Hide cat to enable use of corpses.
---   --   --     RabbusSpeedrun.HideGroup(false)
+--   --   --     RegularSizedSpeedrun.HideGroup(false)
 --   --   --
 --   --   --     -- Id matching one that brings player back from the portal.
 --   --   --     if inPortal == true and abilityId == 105218 or abilityId == 121254 then
@@ -507,20 +507,20 @@ end
 
 local function RefreshHideGroupForNecroMode( delay )
   SetCrownCrateNPCVisible(true)
-  RabbusSpeedrun.groupIsHidden = true
+  RegularSizedSpeedrun.groupIsHidden = true
 
   zo_callLater(function()
     SetCrownCrateNPCVisible(false)
-    RabbusSpeedrun.groupIsHidden = false
+    RegularSizedSpeedrun.groupIsHidden = false
   end, delay)
 end
 
 local function OnNecroEffectChanged( eventCode, change, effectSlot, effectName, unitTag, beginTime, endTime, stackCount, iconName, buffType, effectType, abilityType, statusEffectType, unitName, unitId, abilityId, sourceType )
   if abilityId == 105218 or abilityId == 103489 then
     if change ~= EFFECT_RESULT_FADED then
-      RabbusSpeedrun:dbg(2, "[<<1>>] change = <<2>> at: <<3>>.", effectName, tostring(change), GetGameTimeSeconds())
+      RegularSizedSpeedrun:dbg(2, "[<<1>>] change = <<2>> at: <<3>>.", effectName, tostring(change), GetGameTimeSeconds())
     else
-      RabbusSpeedrun:dbg(2, "[<<1>>] Faded at: <<2>>.", effectName, GetGameTimeSeconds())
+      RegularSizedSpeedrun:dbg(2, "[<<1>>] Faded at: <<2>>.", effectName, GetGameTimeSeconds())
     end
     return
   end
@@ -528,14 +528,14 @@ local function OnNecroEffectChanged( eventCode, change, effectSlot, effectName, 
   if change == EFFECT_RESULT_GAINED then
     if not hasEffect then
       hasEffect = true
-      RabbusSpeedrun:dbg(2, "[<<1>>] Gained at: <<2>>. Hiding Group", effectName, GetGameTimeSeconds())
+      RegularSizedSpeedrun:dbg(2, "[<<1>>] Gained at: <<2>>. Hiding Group", effectName, GetGameTimeSeconds())
       RefreshHideGroupForNecroMode( 1500 )
     end
 
   elseif change == EFFECT_RESULT_FADED then
     if hasEffect then
       hasEffect = false
-      RabbusSpeedrun:dbg(2, "[<<1>>] Faded at: <<2>>.", effectName, GetGameTimeSeconds())
+      RegularSizedSpeedrun:dbg(2, "[<<1>>] Faded at: <<2>>.", effectName, GetGameTimeSeconds())
       RefreshHideGroupForNecroMode( 1500 )
     end
   end
@@ -548,12 +548,12 @@ local function OnPortalDeath( eventCode, unitTag, isDead )
 
   if dead then
     died = true
-    RabbusSpeedrun:dbg(2, "[<<1>>] at: <<2>>.", dead and "Dead" or "Alive", GetGameTimeSeconds())
+    RegularSizedSpeedrun:dbg(2, "[<<1>>] at: <<2>>.", dead and "Dead" or "Alive", GetGameTimeSeconds())
     RefreshHideGroupForNecroMode( 5000 )
 
   elseif died and not dead then
     died = false
-    RabbusSpeedrun:dbg(2, "[<<1>>] at: <<2>>.", dead and "Dead" or "Alive", GetGameTimeSeconds())
+    RegularSizedSpeedrun:dbg(2, "[<<1>>] at: <<2>>.", dead and "Dead" or "Alive", GetGameTimeSeconds())
     RefreshHideGroupForNecroMode( 5000 )
   end
 end
@@ -570,7 +570,7 @@ local function NecroBossChanged( eventCode, forceReset )
     local r = forceReset
     if isReset ~= r then
       isReset = r
-      RabbusSpeedrun:dbg(2, "Necro Mode Boss Changed: <<1>>, <<2>>", DoesUnitExist("boss1") and "true" or "false", r and "true" or "false")
+      RegularSizedSpeedrun:dbg(2, "Necro Mode Boss Changed: <<1>>, <<2>>", DoesUnitExist("boss1") and "true" or "false", r and "true" or "false")
     end
   end
 
@@ -579,7 +579,7 @@ local function NecroBossChanged( eventCode, forceReset )
       local n = GetUnitName("boss" .. i)
       if not bChanges[n] then
         bChanges[n] = n
-        RabbusSpeedrun:post("[<<1>>] detected", n)
+        RegularSizedSpeedrun:post("[<<1>>] detected", n)
       end
     end
   end
@@ -587,7 +587,7 @@ end
 
 local function ToggleInPortal( time )
   SetCrownCrateNPCVisible(true)
-  RabbusSpeedrun.groupIsHidden = true
+  RegularSizedSpeedrun.groupIsHidden = true
   portalTime             = time + 500
   hasChanged             = true
 end
@@ -608,7 +608,7 @@ local function NecroBossUpdate()
             local b = { name = n, hp = current }
             bosses[n] = b
             currentBosses = currentBosses + 1
-            RabbusSpeedrun:dbg(2, "Boss [<<1>>] added. Active: <<2>>", n, currentBosses)
+            RegularSizedSpeedrun:dbg(2, "Boss [<<1>>] added. Active: <<2>>", n, currentBosses)
           end
 
         elseif current == max and not IsUnitInCombat("player") then
@@ -616,7 +616,7 @@ local function NecroBossUpdate()
             bossesReset = true
             bosses = {}
             currentBosses = 0
-            RabbusSpeedrun:dbg(2, "Bosses reset.")
+            RegularSizedSpeedrun:dbg(2, "Bosses reset.")
           end
         end
 
@@ -625,41 +625,41 @@ local function NecroBossUpdate()
           local boss = bosses[n].name
           bosses[n] = nil
           currentBosses = currentBosses - 1
-          RabbusSpeedrun:dbg(2, "Boss [<<1>>] removed. Active: <<2>>", boss, currentBosses)
+          RegularSizedSpeedrun:dbg(2, "Boss [<<1>>] removed. Active: <<2>>", boss, currentBosses)
         end
       end
     end
 
-    if currentBosses >= 1 and not IsUnitInCombat("player") and not RabbusSpeedrun.groupIsHidden then
+    if currentBosses >= 1 and not IsUnitInCombat("player") and not RegularSizedSpeedrun.groupIsHidden then
       if hasEffect then return end
       local t = GetGameTimeMilliseconds()
       local timer = string.format("%0.3s", (t - bossFightStart) / 1000)
-      RabbusSpeedrun:dbg(2, "In Portal Update: <<1>>.", timer)
+      RegularSizedSpeedrun:dbg(2, "In Portal Update: <<1>>.", timer)
       -- ToggleInPortal( t )
 
       -- if t > portalTime then
-      --     RabbusSpeedrun:dbg(2, "In Portal: Showing Group.")
+      --     RegularSizedSpeedrun:dbg(2, "In Portal: Showing Group.")
       --     SetCrownCrateNPCVisible(false)
-      --     RabbusSpeedrun.groupIsHidden = false
+      --     RegularSizedSpeedrun.groupIsHidden = false
       -- end
     end
 
     --[[
-    if not atBoss then RabbusSpeedrun:dbg(2, "At Boss") end
+    if not atBoss then RegularSizedSpeedrun:dbg(2, "At Boss") end
     atBoss = true
     if IsUnitInCombat("player") then
       if not inBossFight then
-        RabbusSpeedrun:dbg(2, "In Boss Fight")
+        RegularSizedSpeedrun:dbg(2, "In Boss Fight")
         inBossFight = true
       end
     else
       if inBossFight then
-        RabbusSpeedrun:dbg(2, "Not In Boss Fight")
+        RegularSizedSpeedrun:dbg(2, "Not In Boss Fight")
         inBossFight = false
       end
     end
   else
-    if atBoss then RabbusSpeedrun:dbg(2, "Not At Boss") end
+    if atBoss then RegularSizedSpeedrun:dbg(2, "Not At Boss") end
     atBoss = false
   end
 
@@ -669,13 +669,13 @@ local function NecroBossUpdate()
       local buffName = GetUnitBuffInfo(unitTag, i) -- abilityId = 102271
       if (buffName == "Shadow World" or buffName == "Time Breach" or buffName == "Bitter Marrow") then
         if not inPortal then
-          RabbusSpeedrun:dbg(2, "In Portal")
+          RegularSizedSpeedrun:dbg(2, "In Portal")
           inPortal = true
           shouldChange = true
         end
       else
         if inPortal then
-          RabbusSpeedrun:dbg(2, "Not in Portal")
+          RegularSizedSpeedrun:dbg(2, "Not in Portal")
           inPortal = false
           shouldChange = true
         end
@@ -684,13 +684,13 @@ local function NecroBossUpdate()
 
     if shouldChange then
       if not hasChanged then
-        RabbusSpeedrun:dbg(2, "Hiding")
+        RegularSizedSpeedrun:dbg(2, "Hiding")
         ToggleInPortal( t )
       else
-        RabbusSpeedrun:dbg(2, "Unhiding")
+        RegularSizedSpeedrun:dbg(2, "Unhiding")
         if t > portalTime then
           SetCrownCrateNPCVisible(false)
-          RabbusSpeedrun.groupIsHidden = false
+          RegularSizedSpeedrun.groupIsHidden = false
           hasChanged = false
           shouldChange = false
         end
@@ -700,34 +700,34 @@ local function NecroBossUpdate()
 
     --[[
     if not atBoss then
-      if not RabbusSpeedrun.groupIsHidden and not inPortal then
+      if not RegularSizedSpeedrun.groupIsHidden and not inPortal then
         inPortal = true
         SetCrownCrateNPCVisible(true)
-        RabbusSpeedrun.groupIsHidden = true
-        RabbusSpeedrun:dbg(2, "In Portal")
+        RegularSizedSpeedrun.groupIsHidden = true
+        RegularSizedSpeedrun:dbg(2, "In Portal")
         portalTime = t + 500
       end
 
-      if inPortal and RabbusSpeedrun.groupIsHidden then
+      if inPortal and RegularSizedSpeedrun.groupIsHidden then
         if t > portalTime then
           SetCrownCrateNPCVisible(false)
-          RabbusSpeedrun.groupIsHidden = false
+          RegularSizedSpeedrun.groupIsHidden = false
         end
       end
 
     else
-      if RabbusSpeedrun.groupIsHidden and inPortal then
+      if RegularSizedSpeedrun.groupIsHidden and inPortal then
         inPortal = false
         SetCrownCrateNPCVisible(true)
-        RabbusSpeedrun.groupIsHidden = true
-        RabbusSpeedrun:dbg(2, "Out of Portal")
+        RegularSizedSpeedrun.groupIsHidden = true
+        RegularSizedSpeedrun:dbg(2, "Out of Portal")
         portalTime = t + 500
       end
 
-      if not inPortal and RabbusSpeedrun.groupIsHidden then
+      if not inPortal and RegularSizedSpeedrun.groupIsHidden then
         if t > portalTime then
           SetCrownCrateNPCVisible(false)
-          RabbusSpeedrun.groupIsHidden = false
+          RegularSizedSpeedrun.groupIsHidden = false
         end
       end
     end
@@ -738,20 +738,20 @@ end
 local function RegisterNecroEvents()
   -- if hide group is enabled: turn it off when entering combat.
   -- turn it on again when needed.
-  EM:RegisterForEvent( RabbusSpeedrun.name .. "NecroCombat", EVENT_PLAYER_COMBAT_STATE, function()
+  EM:RegisterForEvent( RegularSizedSpeedrun.name .. "NecroCombat", EVENT_PLAYER_COMBAT_STATE, function()
 
     local inCombat = IsUnitInCombat("player")
 
     -- only do something if needed
-    if inCombat and shouldChange and RabbusSpeedrun.groupIsHidden then
+    if inCombat and shouldChange and RegularSizedSpeedrun.groupIsHidden then
       shouldChange = false
       SetCrownCrateNPCVisible(false)
-      RabbusSpeedrun.groupIsHidden = false
+      RegularSizedSpeedrun.groupIsHidden = false
     end
 
     -- for testing how to work around portals in trials
     if currentBosses >= 1 and not inCombat then  -- can only be true in CR, SS and RG
-      RabbusSpeedrun:dbg(2, "Portal Trasition at: <<1>>.", GetGameTimeMilliseconds())
+      RegularSizedSpeedrun:dbg(2, "Portal Trasition at: <<1>>.", GetGameTimeMilliseconds())
     end
   end )
 
@@ -760,22 +760,22 @@ local function RegisterNecroEvents()
   -- if setting is on: hide group on death before being brought back to the group
   if zone == 1051 or zone == 1263 then
     -- CR and RG (you don't get ported out on death in SS, so ignore)
-    EM:RegisterForEvent(   RabbusSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED, OnPortalDeath )
-    EM:AddFilterForEvent(  RabbusSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER )
+    EM:RegisterForEvent(   RegularSizedSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED, OnPortalDeath )
+    EM:AddFilterForEvent(  RegularSizedSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER )
   end
 
   -- very messy testing. no good answers yet
   if GetDisplayName() ~= "@nogetrandom" then return end
 
-  EM:UnregisterForEvent(  RabbusSpeedrun.name .. "NecroBossChanged", EVENT_BOSSES_CHANGED )
-  EM:UnregisterForUpdate( RabbusSpeedrun.name .. "NecroBossUpdate" )
+  EM:UnregisterForEvent(  RegularSizedSpeedrun.name .. "NecroBossChanged", EVENT_BOSSES_CHANGED )
+  EM:UnregisterForUpdate( RegularSizedSpeedrun.name .. "NecroBossUpdate" )
 
   for id, effect in pairs(portalZones) do
     for i = 1, #portalZones[id] do
       local e = portalZones[id][i]
       if e then
-        EM:UnregisterForEvent(RabbusSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED)
-        -- EM:UnregisterForEvent(RabbusSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT)
+        EM:UnregisterForEvent(RegularSizedSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED)
+        -- EM:UnregisterForEvent(RegularSizedSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT)
       end
     end
 
@@ -784,30 +784,30 @@ local function RegisterNecroEvents()
       for i = 1, #portalZones[id] do
         local e = portalZones[id][i]
         if e then
-          EM:RegisterForEvent(RabbusSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED, OnNecroEffectChanged)
-          EM:AddFilterForEvent(RabbusSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED,
+          EM:RegisterForEvent(RegularSizedSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED, OnNecroEffectChanged)
+          EM:AddFilterForEvent(RegularSizedSpeedrun.name .. "NecroEffectChanged" .. e, EVENT_EFFECT_CHANGED,
           REGISTER_FILTER_ABILITY_ID, e)
           -- REGISTER_FILTER_UNIT_TAG_PREFIX, "player",
 
-          -- EM:RegisterForEvent(  RabbusSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT, NecroModePortal )
-          -- EM:AddFilterForEvent( RabbusSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT,
+          -- EM:RegisterForEvent(  RegularSizedSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT, NecroModePortal )
+          -- EM:AddFilterForEvent( RegularSizedSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT,
           --     REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER,
           --     REGISTER_FILTER_ABILITY_ID, e )
         end
-        RabbusSpeedrun:dbg(2, "Necro Mode check for: <<1>>", GetAbilityName(e))
+        RegularSizedSpeedrun:dbg(2, "Necro Mode check for: <<1>>", GetAbilityName(e))
       end
     end
   end
 
   if inPortalZone then
-    EM:RegisterForEvent( RabbusSpeedrun.name .. "NecroBossChanged", EVENT_BOSSES_CHANGED, NecroBossChanged)
-    EM:RegisterForUpdate( RabbusSpeedrun.name .. "NecroBossUpdate", 50, NecroBossUpdate )
+    EM:RegisterForEvent( RegularSizedSpeedrun.name .. "NecroBossChanged", EVENT_BOSSES_CHANGED, NecroBossChanged)
+    EM:RegisterForUpdate( RegularSizedSpeedrun.name .. "NecroBossUpdate", 50, NecroBossUpdate )
   end
 end
 
-function RabbusSpeedrun.UpdateNecroMode()
-  EM:UnregisterForEvent( RabbusSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED )
-  EM:UnregisterForEvent( RabbusSpeedrun.name .. "NecroCombat", EVENT_PLAYER_COMBAT_STATE )
+function RegularSizedSpeedrun.UpdateNecroMode()
+  EM:UnregisterForEvent( RegularSizedSpeedrun.name .. "PortalDeath", EVENT_UNIT_DEATH_STATE_CHANGED )
+  EM:UnregisterForEvent( RegularSizedSpeedrun.name .. "NecroCombat", EVENT_PLAYER_COMBAT_STATE )
 
   if cV.hgNecro then
     RegisterNecroEvents()
@@ -820,7 +820,7 @@ function RabbusSpeedrun.UpdateNecroMode()
         for id, effect in pairs(portalZones) do
           for i = 1, #portalZones[id] do
             local e = portalZones[id][i]
-            if e then EM:UnregisterForEvent( RabbusSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT ) end
+            if e then EM:UnregisterForEvent( RegularSizedSpeedrun.name .. "Portal" .. e, EVENT_COMBAT_EVENT ) end
           end
         end
       end
@@ -828,33 +828,33 @@ function RabbusSpeedrun.UpdateNecroMode()
   end
 end
 
-function RabbusSpeedrun.ConfigureHideGroup()
-  RabbusSpeedrun.HideGroup(ShouldHideGroup())
-  if cV.hgNecro then RabbusSpeedrun.UpdateNecroMode() end
+function RegularSizedSpeedrun.ConfigureHideGroup()
+  RegularSizedSpeedrun.HideGroup(ShouldHideGroup())
+  if cV.hgNecro then RegularSizedSpeedrun.UpdateNecroMode() end
 end
 
-function RabbusSpeedrun.HideGroupToggle()
+function RegularSizedSpeedrun.HideGroupToggle()
   cV.groupHidden = not cV.groupHidden
-  RabbusSpeedrun.HideGroup(cV.groupHidden)
+  RegularSizedSpeedrun.HideGroup(cV.groupHidden)
 end
 
-function RabbusSpeedrun.HideGroup(hide) --copied from HideGroup by Wheels - thanks!
+function RegularSizedSpeedrun.HideGroup(hide) --copied from HideGroup by Wheels - thanks!
   if hide == true then
     SetCrownCrateNPCVisible(true)
-    if RabbusSpeedrun.groupIsHidden ~= hide then StoreNameplateSettings() end
-    if cV.groupHidden ~= hide then RabbusSpeedrun:dbg(0, "Hiding Group Members") end
-    if sV.changeNameplates then RabbusSpeedrun.AlterNameplateSettings() end
-    if sV.changeHealthBars then RabbusSpeedrun.AlterHealthBarSettings() end
+    if RegularSizedSpeedrun.groupIsHidden ~= hide then StoreNameplateSettings() end
+    if cV.groupHidden ~= hide then RegularSizedSpeedrun:dbg(0, "Hiding Group Members") end
+    if sV.changeNameplates then RegularSizedSpeedrun.AlterNameplateSettings() end
+    if sV.changeHealthBars then RegularSizedSpeedrun.AlterHealthBarSettings() end
   else
-    if RabbusSpeedrun.groupIsHidden ~= hide then
+    if RegularSizedSpeedrun.groupIsHidden ~= hide then
       if not cV.hgNecro and cV.hgAutoShow then ForceGroupVisible()
       else ShowGroup() end
     end
   end
-  RabbusSpeedrun.groupIsHidden = hide
+  RegularSizedSpeedrun.groupIsHidden = hide
 end
 
-function RabbusSpeedrun.ConfigureCombatInteractBlocker()
+function RegularSizedSpeedrun.ConfigureCombatInteractBlocker()
   ZO_PreHook(PLAYER_TO_PLAYER, "ShowPlayerInteractMenu", function(shouldBlock)
     if IsUnitInCombat("player") then
       local block = false
@@ -863,7 +863,7 @@ function RabbusSpeedrun.ConfigureCombatInteractBlocker()
       else
         if (IsInCampaign() or IsActiveWorldBattleground()) then
           block = cV.interactBlockPvP
-        elseif RabbusSpeedrun.IsInTrialZone() then
+        elseif RegularSizedSpeedrun.IsInTrialZone() then
           block = cV.interactBlockTrial
         end
       end
@@ -875,27 +875,27 @@ function RabbusSpeedrun.ConfigureCombatInteractBlocker()
   end)
 end
 
-function RabbusSpeedrun.PrintScoreReasons()
-  RabbusSpeedrun:dbg(0, "[|cffffffCurrent Trial|r |cdf4242Score|r |cffffffFactors|r]")
-  for k, v in pairs(RabbusSpeedrun.scores) do
+function RegularSizedSpeedrun.PrintScoreReasons()
+  RegularSizedSpeedrun:dbg(0, "[|cffffffCurrent Trial|r |cdf4242Score|r |cffffffFactors|r]")
+  for k, v in pairs(RegularSizedSpeedrun.scores) do
 
-    local score = RabbusSpeedrun.scores[k]
+    local score = RegularSizedSpeedrun.scores[k]
     if score.id ~= RAID_POINT_REASON_LIFE_REMAINING then
 
       if score.times > 0 then
-        RabbusSpeedrun:post('|cdf4242' .. score.name .. '|r' .. ' x ' .. score.times .. ' = ' .. score.total .. ' points.')
+        RegularSizedSpeedrun:post('|cdf4242' .. score.name .. '|r' .. ' x ' .. score.times .. ' = ' .. score.total .. ' points.')
       end
     else
       zo_callLater(function()
-        if score.times > 0 then RabbusSpeedrun:post('|cdf4242' .. score.name .. '|r' .. ' x ' .. score.times) end
+        if score.times > 0 then RegularSizedSpeedrun:post('|cdf4242' .. score.name .. '|r' .. ' x ' .. score.times) end
       end, 50)
     end
   end
 end
 
-function RabbusSpeedrun.UpdateScoreFactors(profile, raid)
-  for k, v in pairs(RabbusSpeedrun.scores) do
-    local score = RabbusSpeedrun.scores[k]
+function RegularSizedSpeedrun.UpdateScoreFactors(profile, raid)
+  for k, v in pairs(RegularSizedSpeedrun.scores) do
+    local score = RegularSizedSpeedrun.scores[k]
     if (score.id ~= RAID_POINT_REASON_LIFE_REMAINING and score.times > 0) then
       if sV.profiles[profile].raidList[raid].scoreFactors.scoreReasons[k] == nil then
         sV.profiles[profile].raidList[raid].scoreFactors.scoreReasons[k] = score
@@ -925,7 +925,7 @@ function RabbusSpeedrun.UpdateScoreFactors(profile, raid)
     best.bestScore = sV.finalScore
   end
 
-  if not RabbusSpeedrun.IsInTrialZone() then return end
+  if not RegularSizedSpeedrun.IsInTrialZone() then return end
 
   local vit = GetRaidReviveCountersRemaining()
 
@@ -936,7 +936,7 @@ function RabbusSpeedrun.UpdateScoreFactors(profile, raid)
   end
 end
 
-function RabbusSpeedrun.GetTrialMaxVitality(raidID)
+function RegularSizedSpeedrun.GetTrialMaxVitality(raidID)
   local vitality
   -- TODO poopcode
   if raidID == 638 or raidID == 636 or raidID == 639 or raidID == 1082 or raidID == 635 then
@@ -954,11 +954,11 @@ function RabbusSpeedrun.GetTrialMaxVitality(raidID)
   return vitality
 end
 
-function RabbusSpeedrun.ResolveTrialDiffculty()
+function RegularSizedSpeedrun.ResolveTrialDiffculty()
   local inTrial = false
   local zone    = GetZoneId(GetUnitZoneIndex("player"))
 
-  for id in pairs(RabbusSpeedrun.Data.raidList) do
+  for id in pairs(RegularSizedSpeedrun.Data.raidList) do
     if id == zone then inTrial = true end
   end
 
@@ -974,40 +974,40 @@ function RabbusSpeedrun.ResolveTrialDiffculty()
   end
 end
 
-function RabbusSpeedrun.BestPossible(raidID)
+function RegularSizedSpeedrun.BestPossible(raidID)
   local timer = 0
-  local vitality = RabbusSpeedrun.GetTrialMaxVitality(raidID)
+  local vitality = RegularSizedSpeedrun.GetTrialMaxVitality(raidID)
 
-  for i, x in pairs(RabbusSpeedrun.customTimerSteps[raidID]) do
-    if RabbusSpeedrun.GetSavedTimer(raidID, i) then
-      timer = RabbusSpeedrun.GetSavedTimer(raidID, i) + timer
+  for i, x in pairs(RegularSizedSpeedrun.customTimerSteps[raidID]) do
+    if RegularSizedSpeedrun.GetSavedTimer(raidID, i) then
+      timer = RegularSizedSpeedrun.GetSavedTimer(raidID, i) + timer
     end
   end
 
   local t = timer > 0 and (timer / 1000) or 0
 
-  local score = math.floor(RabbusSpeedrun.GetScore(t, vitality, raidID))	--= 0
+  local score = math.floor(RegularSizedSpeedrun.GetScore(t, vitality, raidID))	--= 0
 
   if score <= 0 then return "0" end
 
-  local scoreString = RabbusSpeedrun.FormatRaidScore(score)
+  local scoreString = RegularSizedSpeedrun.FormatRaidScore(score)
 
   -- TODO Calculate the score using saved score factors if any exists.
-  RabbusSpeedrun.isScoreSet = true
+  RegularSizedSpeedrun.isScoreSet = true
   return scoreString
 end
 
 -- functions for debugging and maybe useful for new functions
-function RabbusSpeedrun.SetLastTrial()
-  RabbusSpeedrun.ResetLastTrial()
-  sV.lastScores 		= RabbusSpeedrun.scores
+function RegularSizedSpeedrun.SetLastTrial()
+  RegularSizedSpeedrun.ResetLastTrial()
+  sV.lastScores 		= RegularSizedSpeedrun.scores
   sV.lastRaidID 		= sV.raidID
-  sV.lastRaidTimer 	= RabbusSpeedrun.currentRaidTimer
-  RabbusSpeedrun.scores		= RabbusSpeedrun.GetDefaultScores()
-  sV.scores 				= RabbusSpeedrun.scores
+  sV.lastRaidTimer 	= RegularSizedSpeedrun.currentRaidTimer
+  RegularSizedSpeedrun.scores		= RegularSizedSpeedrun.GetDefaultScores()
+  sV.scores 				= RegularSizedSpeedrun.scores
 end
 
-function RabbusSpeedrun.GetLastTrial(score, id, timer)
+function RegularSizedSpeedrun.GetLastTrial(score, id, timer)
   local t = {}
   if score then t.score = sV.lastScores    end
   if id    then t.id    = sV.lastRaidID    end
@@ -1015,24 +1015,24 @@ function RabbusSpeedrun.GetLastTrial(score, id, timer)
   return t
 end
 
-function RabbusSpeedrun.ResetLastTrial()
+function RegularSizedSpeedrun.ResetLastTrial()
   sV.lastScores    = {}
   sV.lastRaidID    = 0
   sV.lastRaidTimer = {}
 end
 
-function RabbusSpeedrun.PrintLastScoreReasons()
-  RabbusSpeedrun:dbg(0, "[|cffffffLast Trial|r |cdf4242Score|r |cffffffFactors|r]")
+function RegularSizedSpeedrun.PrintLastScoreReasons()
+  RegularSizedSpeedrun:dbg(0, "[|cffffffLast Trial|r |cdf4242Score|r |cffffffFactors|r]")
   for k, v in pairs(sV.lastScores) do
 
     local lastScore = sV.lastScores[k]
     if lastScore.id ~= RAID_POINT_REASON_LIFE_REMAINING then
       if lastScore.times > 0 then
-        RabbusSpeedrun:post('|cdf4242' .. lastScore.name .. '|r' .. ' x ' .. lastScore.times .. ' = ' .. lastScore.total .. ' points.')
+        RegularSizedSpeedrun:post('|cdf4242' .. lastScore.name .. '|r' .. ' x ' .. lastScore.times .. ' = ' .. lastScore.total .. ' points.')
       end
     else
       zo_callLater(function()
-        RabbusSpeedrun:post('|cdf4242' .. lastScore.name .. '|r' .. ' x ' .. lastScore.times)
+        RegularSizedSpeedrun:post('|cdf4242' .. lastScore.name .. '|r' .. ' x ' .. lastScore.times)
       end, 100)
     end
   end
@@ -1058,7 +1058,7 @@ local blackList    = {
   [89683] = true,
   [91369] = true,
 }
-function RabbusSpeedrun.RemindFood()
+function RegularSizedSpeedrun.RemindFood()
   SpeedRun_Food:SetHidden(false)
   isReminding = true
 
@@ -1066,8 +1066,8 @@ function RabbusSpeedrun.RemindFood()
 
   if (not foodActive and sV.food.expireStay) then return end
 
-  EM:RegisterForUpdate(RabbusSpeedrun.name .. "FoodUI", 5000, function()
-    EM:UnregisterForUpdate(RabbusSpeedrun.name .. "FoodUI")
+  EM:RegisterForUpdate(RegularSizedSpeedrun.name .. "FoodUI", 5000, function()
+    EM:UnregisterForUpdate(RegularSizedSpeedrun.name .. "FoodUI")
     isReminding = false
     SpeedRun_Food:SetHidden(true)
     SpeedRun_Food_Label:SetText("Food Reminder")
@@ -1099,14 +1099,14 @@ end
 local function shouldUpdate()
   local update = true
 
-  if (not sV.food.show or RabbusSpeedrun.foodUnlocked) then update = false end
+  if (not sV.food.show or RegularSizedSpeedrun.foodUnlocked) then update = false end
   if isReminding and (not foodActive and sV.food.expireStay) then update = false end
 
   return update
 end
 
 local function CheckFoodBuffs()
-  if (not sV.food.show or RabbusSpeedrun.foodUnlocked) then return end
+  if (not sV.food.show or RegularSizedSpeedrun.foodUnlocked) then return end
 
   -- if not shouldUpdate() then return end
 
@@ -1117,7 +1117,7 @@ local function CheckFoodBuffs()
     return
   end
 
-  RabbusSpeedrun.UpdateFoodReminderInterval(t, sV.food.time)
+  RegularSizedSpeedrun.UpdateFoodReminderInterval(t, sV.food.time)
 
   local c = SpeedRun_Food
   local l = c:GetNamedChild("_Label")
@@ -1138,7 +1138,7 @@ local function CheckFoodBuffs()
         --   local formatedTime       = ZO_FormatTime(testTimer, TIME_FORMAT_STYLE_COLONS, TIME_FORMAT_PRECISION_SECONDS)
         --   if testTimer <= 600 then
         --     l:SetText(zo_strformat("Your '|cffff99<<1>>|r' food expires in |cbd0000<<2>>|r minutes!", name, formatedTime))
-        --     RabbusSpeedrun.RemindFood()
+        --     RegularSizedSpeedrun.RemindFood()
         --   end
         -- end
 
@@ -1146,7 +1146,7 @@ local function CheckFoodBuffs()
 
         if bufffood_remaining <= 600 then
           l:SetText(zo_strformat("Your |cffff99<<1>>|r food expires in |cbd0000<<2>>|r minutes!", name, formatedTime))
-          RabbusSpeedrun.RemindFood()
+          RegularSizedSpeedrun.RemindFood()
         end
       end
     end
@@ -1156,14 +1156,14 @@ local function CheckFoodBuffs()
 
   if buffFoodFound == false then
     l:SetText("|cff0000You have no food buff!|r")
-    RabbusSpeedrun.RemindFood()
+    RegularSizedSpeedrun.RemindFood()
   end
 end
 
-function RabbusSpeedrun.UpdateFoodReminderInterval(time, interval)
+function RegularSizedSpeedrun.UpdateFoodReminderInterval(time, interval)
   -- new set interval
   if (isReminding and interval > 0) then
-    if not RabbusSpeedrun.foodUnlocked then SpeedRun_Food:SetHidden(true) end
+    if not RegularSizedSpeedrun.foodUnlocked then SpeedRun_Food:SetHidden(true) end
   end
   nextReminder = time + interval
 end
@@ -1174,18 +1174,18 @@ local function shouldRemind()
   local inTrial = false
   local zone    = GetZoneId(GetUnitZoneIndex("player"))
 
-  for id in pairs(RabbusSpeedrun.Data.raidList) do
+  for id in pairs(RegularSizedSpeedrun.Data.raidList) do
     if id == zone then inTrial = true end
   end
 
   return inTrial
 end
 
-function RabbusSpeedrun.ToggleFoodReminder()
-  EM:UnregisterForUpdate(RabbusSpeedrun.name .. "Food")
-  RabbusSpeedrun.ShowFoodReminder(false)
+function RegularSizedSpeedrun.ToggleFoodReminder()
+  EM:UnregisterForUpdate(RegularSizedSpeedrun.name .. "Food")
+  RegularSizedSpeedrun.ShowFoodReminder(false)
   if shouldRemind() then
-    EM:RegisterForUpdate(RabbusSpeedrun.name .. "Food", 2000, CheckFoodBuffs)
+    EM:RegisterForUpdate(RegularSizedSpeedrun.name .. "Food", 2000, CheckFoodBuffs)
   end
 end
 
