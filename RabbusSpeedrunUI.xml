@@ -28,7 +28,7 @@
           <Edge edgeSize="1" />
         </Backdrop>
 
-        <Label name="$(parent)_Title" horizontalAlignment="CENTER" font="ZoFontWinH5" text="Speed|cdf4242Run|r" wrapMode="TRUNCATE">
+        <Label name="$(parent)_Title" horizontalAlignment="CENTER" font="ZoFontWinH5" text="Regular Sized |cdf4242SpeedRun|r" wrapMode="TRUNCATE">
           <Anchor point="TOP" relativePoint="TOP" relativeTo="$(parent)" offsetX="2" offsetY="3" />
           <Dimensions x="280" y="20"/>
         </Label>

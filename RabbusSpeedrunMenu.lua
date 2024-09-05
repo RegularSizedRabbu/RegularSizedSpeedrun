@@ -964,8 +964,8 @@ end
 function RabbusSpeedrun.CreateSettingsWindow()
   local panelData = {
     type               = "panel",
-    name               = "Rabbu's SpeedRun",
-    displayName        = "Rabbu's Speed|cdf4242Run|r",
+    name               = "RegularSizedSpeedRun",
+    displayName        = "RegularSizedSpeed|cdf4242Run|r",
     author             = "RegularSizedRabbu @RegularSizedRabbu [PC NA]; Floliroy, Panaa, @nogetrandom [PC EU]",
     version            = RabbusSpeedrun.version,
     slashCommand       = "/speed menu",
@@ -1030,7 +1030,7 @@ function RabbusSpeedrun.CreateSettingsWindow()
       controls = {
 
         { type    = "checkbox",   name = "Panel Always Active",
-          tooltip = "The panel at the top of the |cffffffSpeed|r|cdf4242Run|r window will be visible outside of trials.",
+          tooltip = "The panel at the top of the |cffffffRegularSizedSpeed|r|cdf4242Run|r window will be visible outside of trials.",
           default = true,
           getFunc = function() return sV.showPanelAlways end,
           setFunc = function()
@@ -1062,7 +1062,7 @@ function RabbusSpeedrun.CreateSettingsWindow()
         { type = "description",	width = "half"	},
 
         { type    = "checkbox",   name = "Change Opacity",
-          tooltip = "Lower opacity of the |cffffffSpeed|r|cdf4242Run|r window while in combat in trials.",
+          tooltip = "Lower opacity of the |cffffffRegularSizedSpeed|r|cdf4242Run|r window while in combat in trials.",
           default = false,
           getFunc = function() return sV.changeAlpha end,
           setFunc = function(value)
@@ -1306,7 +1306,7 @@ function RabbusSpeedrun.CreateSettingsWindow()
         { type = "submenu",     name = "Hide Group Options",
           controls = {
 
-            { type = "description", title = "Set the behaviour of |cffffffSpeed|r|cdf4242Run|r's Hide Group when it's enabled."
+            { type = "description", title = "Set the behaviour of |cffffffRegularSizedSpeed|r|cdf4242Run|r's Hide Group when it's enabled."
             },
 
             { type    = "checkbox",  name = "Auto-Show Group",

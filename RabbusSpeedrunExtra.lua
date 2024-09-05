@@ -3,7 +3,7 @@ local RabbusSpeedrun            = RabbusSpeedrun
 local sV
 local cV
 RabbusSpeedrun.slash            = "/speed" or "/SPEED"
-RabbusSpeedrun.prefix           = "|cffffffSpeed|r|cdf4242Run|r: "
+RabbusSpeedrun.prefix           = "|cffffffRegularSizedSpeed|r|cdf4242Run|r: "
 RabbusSpeedrun.trialDifficulty  = 1
 RabbusSpeedrun.groupIsHidden    = false
 RabbusSpeedrun.npChanged        = false
