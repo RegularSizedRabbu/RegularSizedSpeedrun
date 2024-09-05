@@ -1,4 +1,4 @@
-# RabbusSpeedrun
+# Regular Sized Speedrun
 Originally Developed by Floliroy as Speedrun but maintenance has stopped since Blackwood Chapter.
 
 Currently the version features the following improvements over the original:
