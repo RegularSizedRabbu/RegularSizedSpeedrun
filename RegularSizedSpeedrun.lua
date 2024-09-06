@@ -677,8 +677,12 @@ function RegularSizedSpeedrun.MainBoss()
       sV.currentBossName 				= RegularSizedSpeedrun.currentBossName
 
 
-      if RegularSizedSpeedrun.raidID == 1263 then
+      if RegularSizedSpeedrun.raidID == ZoneID.RG then
         if (string.find(RegularSizedSpeedrun.currentBossName, "snakes") or string.find(RegularSizedSpeedrun.currentBossName, "titan")) then return end
+      end
+
+      if RegularSizedSpeedrun.raidID == ZoneID.SE then
+        if (string.find(RegularSizedSpeedrun.currentBossName, "descender")) then return end
       end
 
       if RegularSizedSpeedrun.currentBossName == RegularSizedSpeedrun.lastBossName then return end
@@ -920,8 +924,9 @@ end
 
 function RegularSizedSpeedrun.IsInTrialZone()
   RegularSizedSpeedrun.zone = GetZoneId(GetUnitZoneIndex("player"))
+  -- TODO k should be id, idk what v is without investigating..
   for k, v in pairs(RegularSizedSpeedrun.Data.raidList) do
-    if RegularSizedSpeedrun.Data.raidList[k].id == RegularSizedSpeedrun.zone then
+    if k == RegularSizedSpeedrun.zone then
 
       -- if not IsUnitUsingVeteranDifficulty("player") then
       -- if ZO_GetEffectiveDungeonDifficulty() < 2 then

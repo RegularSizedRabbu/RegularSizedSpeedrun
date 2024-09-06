@@ -942,7 +942,7 @@ function RegularSizedSpeedrun.GetTrialMaxVitality(raidID)
   if raidID == 638 or raidID == 636 or raidID == 639 or raidID == 1082 or raidID == 635 then
     vitality = 24
 
-  elseif raidID == 725 or raidID ==  975 or raidID == 1000 or raidID == 1051 or raidID == 1121 or raidID == 1196 or raidID == 1263 or raidID == 1427 or raidID == 1478 then
+  elseif raidID == 725 or raidID ==  975 or raidID == 1000 or raidID == 1051 or raidID == 1121 or raidID == 1196 or raidID == 1263 or raidID == 1344 or raidID == 1427 or raidID == 1478 then
     vitality = 36
 
   elseif raidID == 677 or raidID == 1227 then
@@ -958,9 +958,10 @@ function RegularSizedSpeedrun.ResolveTrialDiffculty()
   local inTrial = false
   local zone    = GetZoneId(GetUnitZoneIndex("player"))
 
-  for id in pairs(RegularSizedSpeedrun.Data.raidList) do
-    if id == zone then inTrial = true end
-  end
+  if RegularSizedSpeedrun.Data.raidList[zone] ~= nil then inTrial = true end
+  --for id in pairs(RegularSizedSpeedrun.Data.raidList) do
+  --  if id == zone then inTrial = true end
+  --end
 
   if inTrial then
     if GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN then
@@ -1168,15 +1169,17 @@ function RegularSizedSpeedrun.UpdateFoodReminderInterval(time, interval)
   nextReminder = time + interval
 end
 
+-- TODO: This should be called InTrial or to that effect and used elsewhere to remove replicated code.
 local function shouldRemind()
   if not sV.food.show then return false end
 
   local inTrial = false
   local zone    = GetZoneId(GetUnitZoneIndex("player"))
 
-  for id in pairs(RegularSizedSpeedrun.Data.raidList) do
-    if id == zone then inTrial = true end
-  end
+  if RegularSizedSpeedrun.Data.raidList[zone] ~= nil then inTrial = true end
+  --for id in pairs(RegularSizedSpeedrun.Data.raidList) do
+  --  if id == zone then inTrial = true end
+  --end
 
   return inTrial
 end

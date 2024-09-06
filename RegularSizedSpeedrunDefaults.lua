@@ -107,7 +107,6 @@ local defaultScoreFactors = {
 local defaultRaidList = {
   [638]   = {
     name          = "AA",
-    id            = 638,
     timerSteps    = {},
     scoreFactors  = {
       vitality      = 0,
@@ -1058,7 +1057,7 @@ local function CheckProfileData(profile, raidID)
   local d = RegularSizedSpeedrun.Data.raidList[raidID]
   local trial = sV.profiles[profile].raidList[raidID]
   if not trial.name then trial.name = d.name end
-  if not trial.id then trial.id = d.id end
+  --if not trial.id then trial.id = d.id end
   if not trial.timerSteps then trial.timerSteps = d.timerSteps end
   if not trial.scoreFactors then trial.scoreFactors = d.scoreFactors end
 end
