@@ -153,6 +153,65 @@ do
   end
 end
 
+function RegularSizedSpeedrun.RestoreDimensions()
+  local p_width  = sV["speedrun_panel_width"] or 284
+  local p_height = sV["speedrun_panel_height"] or 26
+  local c_width  = sV["speedrun_container_width"] or 284
+  local c_height = sV["speedrun_container_height"] or 600
+
+  -- Restore Saved UI Dimensions
+  SpeedRun_Panel:SetDimensions(p_width, p_height)
+  SpeedRun_Timer_Container:SetDimensions(c_width, c_height)
+
+  -- Enable resize Handles
+  SpeedRun_Panel:SetResizeHandleSize(4)
+end
+
+function RegularSizedSpeedrun.SaveResize_Panel()
+  local width, height = SpeedRun_Panel:GetDimensions()
+  
+  RegularSizedSpeedrun.SetSpeedRunTimerContainerDimensions(width)
+  
+  sV["speedrun_panel_width"]  = width
+  sV["speedrun_panel_height"] = height
+end
+
+function RegularSizedSpeedrun.SetSpeedRunTimerContainerDimensions(width)
+  SpeedRun_Timer_Container_Profile:SetDimensions(width, 20)
+  SpeedRun_Timer_Container_Raid:SetDimensions(width, 23)
+
+  local height = 33
+  for _, x in ipairs(RegularSizedSpeedrun.segments) do
+    d("step")
+    local _, x_height = x:GetDimensions()
+    height = height + 23
+  end
+  
+  SpeedRun_Timer_Container_BG:SetDimensions(width, height)
+  SpeedRun_Timer_Container:SetDimensions(width, height)
+  
+  for i = 1, numActiveSegments do
+    local segment = WM:GetControlByName(RegularSizedSpeedrun.segments[i]:GetName())
+    if segment then
+      local n = segment:GetNamedChild('_Name')
+      local d = segment:GetNamedChild('_Diff')
+      local b = segment:GetNamedChild('_Best')
+      local n_width = width * 0.7
+      local d_width = width * 0.15
+      local b_width = width * 0.15
+    
+      n:SetWidth(n_width)
+      d:SetWidth(d_width)
+      b:SetWidth(b_width)
+    
+    end
+  end
+
+
+  sV["speedrun_container_width"]  = width
+  sV["speedrun_container_height"] = height
+end
+
 function RegularSizedSpeedrun.SaveLoc_Panel()
   sV["speedrun_panel_OffsetX"] = SpeedRun_Panel:GetLeft()
   sV["speedrun_panel_OffsetY"] = SpeedRun_Panel:GetTop()
@@ -405,8 +464,15 @@ function RegularSizedSpeedrun.SetSimpleUI(simple)
       local n = segment:GetNamedChild('_Name')
       local d = segment:GetNamedChild('_Diff')
       local b = segment:GetNamedChild('_Best')
+      local p_width  = sV["speedrun_panel_width"] or 284
+      local n_width = p_width * 0.7
+      local d_width = p_width * 0.15
+      local b_width = p_width * 0.15
       local h = simple == true and 0 or 23
       local H = simple == true and 0 or 5
+      n:SetWidth(n_width)
+      d:SetWidth(d_width)
+      b:SetWidth(b_width)
       n:SetHeight(h)
       d:SetHeight(h)
       b:SetHeight(h)
@@ -806,6 +872,7 @@ function RegularSizedSpeedrun.InitiateUI()
   RegularSizedSpeedrun.ResetAnchors()
   RegularSizedSpeedrun.SetDefaultUI()
   RegularSizedSpeedrun.UpdateAnchors()
+  RegularSizedSpeedrun.RestoreDimensions()
   SpeedRun_Panel:SetMovable(sV.unlockUI)
 
   local food = SpeedRun_Food
